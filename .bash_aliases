@@ -13,6 +13,8 @@
 alias key.down='curl -O https://raw.githubusercontent.com/kimchicup/key/main/.bash_aliases'
 alias key.reload='source ~/.bash_aliases'
 alias key.edit='sudo nano ~/.bash_aliases'
+alias s.update='cd ~ && rm ~/.bash_aliases && curl -s -O https://raw.githubusercontent.com/kimchicup/key/main/.bash_aliases && source ~/.bash_aliases && echo \“*** Shortcut Keys Updated Successfully...\"&& echo \“*** alias...\'
+alias s.list="alias"
 #
 alias n.update='sudo apt update -y && sudo apt upgrade -y && sudo apt dist-upgrade -y && sudo apt autoremove -y'
 alias p.start='echo \“Wait for 20s .….\” && sudo systemctl start beacon && sleep 10s && sudo systemctl start validator && sleep 10s && echo \“Done.\"'
@@ -68,9 +70,9 @@ alias v.error="sudo journalctl -u validator | grep -e warning -e error | tail -3
 alias b.chealth="curl -X GET \"https://beaconcha.in/api/healthz\" -H \"accept: text/plain\" -w \"\n\""
 
 # Update (22/08/31)
-alias s.update='cd ~ && rm ~/.bash_aliases && curl -s -O https://raw.githubusercontent.com/theniz/staking-bash-aliases/main/.bash_aliases && source ~/.bash_aliases && echo \“*** Shortcut Keys Updated Successfully...\"'
+
 alias b.connect="curl -s http://localhost:3500/eth/v1alpha1/node/eth1/connections | jq"
-alias s.list="alias"
+
 
 # Update (22/09/17) mev update
 alias mev.start='sudo systemctl start mevboost'
