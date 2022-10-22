@@ -8,12 +8,12 @@
 # source ~/.bash_aliases
 # source 는 단축키 파일을 불러들인다.
 # 원본 파일 주소 https://raw.githubusercontent.com/kimchicup/key/main/.bash_aliases
-#
+# echo - 한탬포 쉬기 
 #
 alias key.down='curl -O https://raw.githubusercontent.com/kimchicup/key/main/.bash_aliases'
 alias key.reload='source ~/.bash_aliases'
 alias key.edit='sudo nano ~/.bash_aliases'
-alias key.update='cd ~ && rm ~/.bash_aliases && curl -s -O https://raw.githubusercontent.com/kimchicup/key/main/.bash_aliases && source ~/.bash_aliases && echo \“*** Shortcut Keys Updated Successfully...\"&& echo \“*** alias...\'
+alias key.update='cd ~ && rm ~/.bash_aliases && curl -s -O https://raw.githubusercontent.com/kimchicup/key/main/.bash_aliases && source ~/.bash_aliases && echo \“*** Shortcut Keys Updated Successfully...\"&& \“*** alias...\'
 alias key.list="alias"
 #
 alias n.update='sudo apt update -y && sudo apt upgrade -y && sudo apt dist-upgrade -y && sudo apt autoremove -y'
