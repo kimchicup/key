@@ -8,7 +8,7 @@
 # source ~/.bash_aliases
 # source 는 단축키 파일을 불러들인다.
 # 원본 파일 주소 https://raw.githubusercontent.com/kimchicup/key/main/.bash_aliases
-# echo - 한탬포 쉬기 
+# echo -  echo \”화면에표시\"
 #
 alias key.down='curl -O https://raw.githubusercontent.com/kimchicup/key/main/.bash_aliases'
 alias key.reload='source ~/.bash_aliases'
