@@ -2,15 +2,15 @@
 # #은 메모기능으로 사용 
 # 본서버가 오류가 났을때 대처법
 # 메인컴퓨터에 ssd를 연결하면 빠르게 싱크를 완료할 수 있다. 
-# curl -O https://raw.githubusercontent.com/Edwin-park/staking-bash-aliases/main/.bash_aliases
+# curl -O https://raw.githubusercontent.com/kimchicup/key/main/.bash_aliases
 # curl 는  파일을 다운받는다. 
 #
 # source ~/.bash_aliases
 # source 는 단축키 파일을 불러들인다.
-# 원본 파일 주소 https://github.com/kimchicup/ubuntu/blob/main/.bash_aliases
+# 원본 파일 주소 https://raw.githubusercontent.com/kimchicup/key/main/.bash_aliases
 #
 #
-alias key.down='curl -O https://raw.github.com/kimchicup/ubuntu/blob/main/.bash_aliases'
+alias key.down='curl -O https://raw.githubusercontent.com/kimchicup/key/main/.bash_aliases'
 alias key.insert='source ~/.bash_aliases'
 alias key.edit='sudo nano ~/.bash_aliases'
 #
