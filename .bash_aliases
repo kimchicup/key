@@ -1,4 +1,4 @@
-# ShortCut Key for Local Maintenance (20/12/01)
+# ShortCut Key for Local Maintenance (22/10/23)
 # #은 메모기능으로 사용 
 # 본서버가 오류가 났을때 대처법
 # 메인컴퓨터에 ssd를 연결하면 빠르게 싱크를 완료할 수 있다. 
@@ -42,7 +42,6 @@ alias b.status='sudo systemctl status beacon'
 alias v.status='sudo systemctl status validator'
 alias n.size='sudo du -hs /home/eth2/eth1 && sudo du -hs /home/eth2/beacon && sudo du -hs /home/eth2/validator && df -h --total | grep total'
 alias n2.size='sudo du -hs /home/eth2/eth1 && sudo du -hs /home2/eth2/eth1 && sudo du -hs /home/eth2/beacon && sudo du -hs /home/eth2/validator && df -h --total | grep total'
-# ShortCut Key for Node Maintenance (20/12/01)
 alias g.peer='curl -s http://localhost:6060/debug/metrics/prometheus | grep p2p_peers'
 alias b.peer='curl -s "localhost:3500/eth/v1alpha1/node/peers" | jq ".peers[].address" | wc -l'
 alias b.health='curl http://localhost:8080/healthz'
@@ -53,8 +52,6 @@ alias b.sync="curl -s http://localhost:3500/eth/v1/node/syncing | jq"
 alias p.ver="curl -s -X GET \"http://127.0.0.1:3500/eth/v1alpha1/node/version\" -H \"accept: application/json\" | jq [.version]"
 alias v.idist="sudo journalctl -u validator | grep -a -i averageInclusionDistance | tail -30"
 alias b.prate="curl -s -X GET \"http://127.0.0.1:3500/eth/v1alpha1/validators/participation\" -H \"accept: application/json\" | jq"
-
-# Update (20/12/30)
 alias g.enable="sudo systemctl enable geth"
 alias b.enable="sudo systemctl enable beacon"
 alias v.enable="sudo systemctl enable validator"
@@ -68,13 +65,8 @@ alias g.error="sudo journalctl -u geth | grep -e warning -e error | tail -30"
 alias b.error="sudo journalctl -u beacon | grep -e warning -e error | tail -30"
 alias v.error="sudo journalctl -u validator | grep -e warning -e error | tail -30"
 alias b.chealth="curl -X GET \"https://beaconcha.in/api/healthz\" -H \"accept: text/plain\" -w \"\n\""
-
-# Update (22/08/31)
-
 alias b.connect="curl -s http://localhost:3500/eth/v1alpha1/node/eth1/connections | jq"
-
-
-# Update (22/09/17) mev update
+#
 alias mev.start='sudo systemctl start mevboost'
 alias mev.stop='sudo systemctl stop mevboost'
 alias mev.log='sudo journalctl -f -u mevboost.service'
