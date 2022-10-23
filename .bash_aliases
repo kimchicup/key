@@ -86,5 +86,10 @@ alias mev.error="sudo journalctl -u mevboost | grep -e warning -e error | tail -
 alias mev.enable="sudo systemctl enable mevboost"
 alias mev.disable="sudo systemctl disable mevboost"
 
-
-
+# geth chaindata 외장하드로 옮기기
+# 1. 폴더 만들기 2. 권한주기 3. 서비스 파일 내 data 주소 변경 4. update 
+# sudo mkdir -p /media/eth2/eth1
+# sudo -u geth chmod -R 700 /media/eth2/eth1
+# sudo nano /etc/systemd/system/geth.service
+# ExecStart=geth --http --datadir=/home/eth2/eth1 \   -->>>> ExecStart=geth --http --datadir=/media/eth2/eth1 \
+# n.reload
