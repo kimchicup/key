@@ -87,10 +87,11 @@ alias mev.enable="sudo systemctl enable mevboost"
 alias mev.disable="sudo systemctl disable mevboost"
 
 # geth chaindata 외장하드로 옮기기
-# 0. 유저 생성(연구필요) 1. 폴더 만들기 2. 권한주기(error) 3. 서비스 파일 내 data 주소 변경 4. update 
-# sudo adduser --media /media/eth2/eth1 --disabled-password --gecos 'Go Ethereum Client media' geth media
-# sudo mkdir -p /media/eth2/eth1
-# sudo -u geth chmod -R 700 /media/eth2/eth1
+# ★폴더에 권한주기만 잘 하면 됨. ★
+# 1. 폴더 만들기 2. 권한주기 3. 서비스 파일 내 data 주소 변경(g.edit) 4. update(n.reload)
+# ★sudo mkdir -p /media/eth2/eth1 ★
+# ★sudo chown -R geth:geth /media/eth2/eth1  -->>media/eth2/eth1 폴더대 대한 권한을 `geth`에 지정 ★
+# sudo -u geth chmod -R 700 /media/eth2/eth1  -->>media를 geth에 권한 지정 (x)
 # sudo nano /etc/systemd/system/geth.service
 # ExecStart=geth --http --datadir=/home/eth2/eth1 \   -->>>> ExecStart=geth --http --datadir=/media/eth2/eth1 \
 # n.reload
