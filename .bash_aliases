@@ -83,7 +83,7 @@ alias mev.disable="sudo systemctl disable mevboost"
 # 0. 폴더 만들기 1. geth 폴도 통으로 복사하기 2. 권한주기 3. 서비스 파일 내 data 주소 변경(g.edit) 4. update(n.reload)
 # ★sudo mkdir -p /media/eth2/eth1 ★
 # ★sudo chown -R geth:geth /media/eth2/eth1  -->>media/eth2/eth1 폴더대 대한 권한을 `geth`에 지정 ★
-# geth 폴더를 다시 복사 했을 경우 권한지정을 다시해줌. 문제없이 돌아감 확인(22.10.23)
+# geth 폴더를 다시 복사 했을 경우 권한지정을 다시해줌. 문제없이 돌아감 확인(1주전 자료부터 불러옴) (22.10.23)
 # sudo -u geth chmod -R 700 /media/eth2/eth1  -->>media를 geth에 권한 지정 (x)
 # sudo nano /etc/systemd/system/geth.service
 # ExecStart=geth --http --datadir=/home/eth2/eth1 \   -->>>> ExecStart=geth --http --datadir=/media/eth2/eth1 \
