@@ -89,3 +89,13 @@ alias mev.disable="sudo systemctl disable mevboost"
 # sudo nano /etc/systemd/system/geth.service
 # ExecStart=geth --http --datadir=/home/eth2/eth1 \   -->>>> ExecStart=geth --http --datadir=/media/eth2/eth1 \
 # n.reload
+
+# 아이디어
+# short key 자동으로 geth 하드디스크를 변경하는 방법
+# geth 서비스파일 2개 원본을 만듬. -> 상황에따라 바꿔서 복사해서 덮어쓰기.  -> 서비스파일 reload. geth 재시작. 
+# step by step으로 적용. 
+# 1. g.stop
+# 2. (서비스파일 변경 or 선택메뉴)파일 복사 
+# 3. n.reload 
+# 4. 권한주기 sudo chown -R geth:geth /media/eth2/eth1  -->>media/eth2/eth1 
+# 5. g.start
