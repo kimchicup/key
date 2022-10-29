@@ -79,6 +79,11 @@ alias mev.enable="sudo systemctl enable mevboost"
 alias mev.disable="sudo systemctl disable mevboost"
 
 # geth chaindata 외장하드로 옮기기
+# geth.service 파일 바꾸기
+alias g.main='sudo cp /etc/systemd/system/gethmain/geth.service /etc/systemd/system/geth.service'
+alias g.ssd='sudo cp /etc/systemd/system/gethssd/geth.service /etc/systemd/system/geth.service'
+
+
 # ★폴더에 권한주기만 잘 하면 됨. 다시 원래대로 돌릴 경우에도 다시 지정해줘야 함. eth2/shared/jwt파일 일치시키기★
 # 0. 폴더 만들기 1. geth 폴더 통으로 복사하기 2. 권한주기 3. 서비스 파일 내 data 주소 변경(g.edit) 4. update(n.reload)
 # ★sudo mkdir -p /media/USERname/SSDname/eth2/eth1 ★
