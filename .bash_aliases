@@ -79,15 +79,17 @@ alias mev.enable="sudo systemctl enable mevboost"
 alias mev.disable="sudo systemctl disable mevboost"
 
 # geth chaindata 외장하드로 옮기기
-# ★폴더에 권한주기만 잘 하면 됨. 다시 원래대로 돌릴 경우에도 다시 지정해줘야 함. ★
-# 0. 폴더 만들기 1. geth 폴도 통으로 복사하기 2. 권한주기 3. 서비스 파일 내 data 주소 변경(g.edit) 4. update(n.reload)
-# ★sudo mkdir -p /media/eth2/eth1 ★
-# ★sudo chown -R geth:geth /media/eth2/eth1  -->>media/eth2/eth1 폴더에 대한 권한을 `geth`에 지정 ★
-# ★sudo chown -R geth:geth /home/eth2/eth1  -->>home/eth2/eth1 폴더에 대한 권한을 `geth`에 지정 ★
-# geth 폴더를 다시 복사 했을 경우 권한지정을 다시해줌. 문제없이 돌아감 확인(1주전 자료부터 불러옴) (22.10.23)
-# sudo -u geth chmod -R 700 /media/eth2/eth1  -->>media를 geth에 권한 지정 (x)
+# ★폴더에 권한주기만 잘 하면 됨. 다시 원래대로 돌릴 경우에도 다시 지정해줘야 함. eth2/shared/jwt파일 일치시키기★
+# 0. 폴더 만들기 1. geth 폴더 통으로 복사하기 2. 권한주기 3. 서비스 파일 내 data 주소 변경(g.edit) 4. update(n.reload)
+# ★sudo mkdir -p /media/USERname/SSDname/eth2/eth1 ★
+# ★sudo chown -R USERname:USERname /media/USERname/SSDname/eth2/eth1         -->>(파일을 복사하기위해)/media/USERname/SSDname/eth2/eth1 폴더에 대한 권한을 `USERname`에 지정 ★
+# ★sudo chown -R geth:geth /media/USERname/SSDname/eth2/eth1               -->>(geth를 실행하기위해)/media/USERname/SSDname/eth2/eth1 폴더에 대한 권한을 `geth`에 지정 ★
+
+# sudo -u geth chmod -R 700 /media/USERname/SSDname/eth2/eth1 -->>media를 geth에 권한 지정 (????)
+
+
 # sudo nano /etc/systemd/system/geth.service
-# ExecStart=geth --http --datadir=/home/eth2/eth1 \   -->>>> ExecStart=geth --http --datadir=/media/eth2/eth1 \
+# ExecStart=geth --http --datadir=/home/eth2/eth1 \   -->>>> ExecStart=geth --http --datadir=/media/USERname/SSDname/eth2/eth1 \
 # n.reload
 
 # 아이디어
