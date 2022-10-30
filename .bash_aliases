@@ -91,7 +91,8 @@ alias g.ssd='sudo cp /etc/systemd/system/gethssd/geth.service /etc/systemd/syste
 # ★sudo chown -R geth:geth /media/USERname/SSDname/eth2/eth1               -->>(geth를 실행하기위해)/media/USERname/SSDname/eth2/eth1 폴더에 대한 권한을 `geth`에 지정 ★
 
 # sudo -u geth chmod -R 700 /media/USERname/SSDname/eth2/eth1 -->>media를 geth에 권한 지정 (????)
-
+# sudo chown -R beacon:beacon /home/eth2/beacon  - beacon에 권한 지정
+# sudo chown -R beacon:beacon /home/eth2/shared  - beacon에 권한 지정
 
 # sudo nano /etc/systemd/system/geth.service
 # ExecStart=geth --http --datadir=/home/eth2/eth1 \   -->>>> ExecStart=geth --http --datadir=/media/USERname/SSDname/eth2/eth1 \
