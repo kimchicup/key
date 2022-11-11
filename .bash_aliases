@@ -95,6 +95,7 @@ alias g.ssd='sudo cp /etc/systemd/system/gethssd/geth.service /etc/systemd/syste
 # ★sudo mkdir -p /media/USERname/SSDname/eth2/eth1 ★
 # ★sudo chown -R USERname:USERname /media/USERname/SSDname/eth2/eth1         -->>(파일을 복사하기위해)/media/USERname/SSDname/eth2/eth1 폴더에 대한 권한을 `USERname`에 지정 ★
 # ★sudo chown -R geth:geth /media/USERname/SSDname/eth2/eth1               -->>(geth를 실행하기위해)/media/USERname/SSDname/eth2/eth1 폴더에 대한 권한을 `geth`에 지정 ★
+# ★sudo chown -R validator:validator /home/eth2/validator   validator 권한주기
 
 # sudo -u geth chmod -R 700 /media/USERname/SSDname/eth2/eth1 -->>media를 geth에 권한 지정 (????)
 # sudo chown -R beacon:beacon /home/eth2/beacon  - beacon에 권한 지정
