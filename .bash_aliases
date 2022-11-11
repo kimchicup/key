@@ -34,6 +34,12 @@ alias b.init='sudo systemctl start beacon && sudo journalctl -f -u beacon.servic
 alias v.init='sudo systemctl start validator && sudo journalctl -f -u validator.service'
 alias n.disable='sudo systemctl disable geth && sudo systemctl disable beacon && sudo systemctl disable validator'
 alias n.enable='sudo systemctl enable geth && sudo systemctl enable beacon && sudo systemctl enable validator'
+alias n.speed.woozki1='dd if=/dev/zero of=/home/woozki/deleteme.dat bs=32M count=64 oflag=direct'
+# 300이상나오면 정상
+alias n.speed.woozki2='dd if=/home/woozki/deleteme.dat of=/dev/null bs=32M count=64 iflag=direct'
+# 500이상 나오면 정상 
+alias n.speed.prysm1='dd if=/dev/zero of=/home/prysm/deleteme.dat bs=32M count=64 oflag=direct'
+alias n.speed.prysm2='dd if=/home/prysm/deleteme.dat of=/dev/null bs=32M count=64 iflag=direct'
 alias g.edit='sudo nano /etc/systemd/system/geth.service'
 alias b.edit='sudo nano /etc/systemd/system/beacon.service'
 alias v.edit='sudo nano /etc/systemd/system/validator.service'
