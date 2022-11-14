@@ -41,12 +41,56 @@ alias key.edit='sudo nano ~/.bash_aliases'
 alias key.update='cd ~ && rm ~/.bash_aliases && curl -s -O https://raw.githubusercontent.com/kimchicup/key/main/.bash_aliases && source ~/.bash_aliases && echo \“*** Shortcut Keys Updated Successfully...\"'
 alias key.list="alias"
 # auto start & stop
-alias gbvm.start='echo \“Wait for 40s .….\” && sudo systemctl start geth && sleep 10s && sudo systemctl start beacon && sleep 10s && sudo systemctl start validator && sleep 10s && sudo systemctl start mevboost && sleep 10s && echo \“Done.\"'
-alias gbvm.stop='echo \”Wait for 25s …..\” && sudo systemctl stop mevboost && sleep 5s && sudo systemctl stop validator && sleep 5s && sudo systemctl stop beacon && sleep 5s && sudo systemctl stop geth && echo \”Done.\"'
-alias bvm.start='echo \“Wait for 30s .….\” && sudo systemctl start beacon && sleep 10s && sudo systemctl start validator && sleep 10s && sudo systemctl start mevboost && sleep 10s && echo \“Done.\"'
-alias bvm.stop='echo \”Wait for 15s …..\” && sudo systemctl stop mevboost && sleep 5s && sudo systemctl stop validator && sleep 5s && sudo systemctl stop beacon && echo \”Done.\"'
-alias bv.start='echo \“Wait for 20s .….\” && sudo systemctl start beacon && sleep 10s && sudo systemctl start validator && sleep 10s && echo \“Done.\"'
-alias bv.stop='echo \”Wait for 10s …..\” && sudo systemctl stop validator && sleep 5s && sudo systemctl stop beacon && echo \”Done.\"'
+alias all.start='echo \“All start .….\” \
+                  && echo \“Geth start\" \
+                  && sudo systemctl start geth && sleep 10s \
+                  && echo \“Beacon start\" \
+                  && sudo systemctl start beacon && sleep 10s \
+                  && echo \“validator start\" \
+                  && sudo systemctl start validator && sleep 10s \
+                  && echo \“MEV Boost start\" \
+                  && sudo systemctl start mevboost && sleep 10s \
+                  && echo \“Done.\"'
+alias all.stop='echo \”All Stop …..\” \
+                  && echo \“MEV Boost stop\" \
+                  && sudo systemctl stop mevboost && sleep 5s \
+                  && echo \“validator stop\" \                  
+                  && sudo systemctl stop validator && sleep 5s \
+                  && echo \“Beacon stop\" \                  
+                  && sudo systemctl stop beacon && sleep 5s \
+                  && echo \“Geth stop\" \                  
+                  && sudo systemctl stop geth \
+                  && echo \”Done.\"'
+alias gbvm.start='echo \“Wait for 40s .….\” \
+                  && sudo systemctl start geth && sleep 10s \
+                  && sudo systemctl start beacon && sleep 10s \
+                  && sudo systemctl start validator && sleep 10s \
+                  && sudo systemctl start mevboost && sleep 10s \
+                  && echo \“Done.\"'
+alias gbvm.stop='echo \”Wait for 25s …..\” \
+                  && sudo systemctl stop mevboost && sleep 5s \
+                  && sudo systemctl stop validator && sleep 5s \
+                  && sudo systemctl stop beacon && sleep 5s \
+                  && sudo systemctl stop geth \
+                  && echo \”Done.\"'
+alias bvm.start='echo \“Wait for 30s .….\” \
+                  && sudo systemctl start beacon && sleep 10s \
+                  && sudo systemctl start validator && sleep 10s \
+                  && sudo systemctl start mevboost && sleep 10s \
+                  && echo \“Done.\"'
+alias bvm.stop='echo \”Wait for 15s …..\” \
+                  && sudo systemctl stop mevboost && sleep 5s \
+                  && sudo systemctl stop validator && sleep 5s \
+                  && sudo systemctl stop beacon \
+                  && echo \”Done.\"'
+alias bv.start='echo \“Wait for 20s .….\” \
+                  && sudo systemctl start beacon && sleep 10s \
+                  && sudo systemctl start validator && sleep 10s \
+                  && echo \“Done.\"'
+alias bv.stop='echo \”Wait for 10s …..\” \
+                  && sudo systemctl stop validator && sleep 5s \
+                  && sudo systemctl stop beacon \
+                  && echo \”Done.\"'
 #
 alias n.reload='sudo systemctl daemon-reload'
 alias n.update='sudo apt update -y && sudo apt upgrade -y && sudo apt dist-upgrade -y && sudo apt autoremove -y'
