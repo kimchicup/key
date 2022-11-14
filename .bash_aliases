@@ -41,26 +41,8 @@ alias key.edit='sudo nano ~/.bash_aliases'
 alias key.update='cd ~ && rm ~/.bash_aliases && curl -s -O https://raw.githubusercontent.com/kimchicup/key/main/.bash_aliases && source ~/.bash_aliases && echo \“*** Shortcut Keys Updated Successfully...\"'
 alias key.list="alias"
 # auto start & stop
-alias all.start='echo \“All start .….\” \
-                 && echo \“Geth start\" \
-                 && sudo systemctl start geth \
-                 && echo \“Beacon start\" \
-                 && sudo systemctl start beacon \
-                 && echo \“validator start\" \
-                 && sudo systemctl start validator \
-                 && echo \“MEV Boost start\" \
-                 && sudo systemctl start mevboost \
-                 && echo \“Done.\"'
-alias all.stop='echo \”All Stop …..\” \
-                && echo \“MEV Boost stop\" \
-                && sudo systemctl stop mevboost \
-                && echo \“validator stop\" \                  
-                && sudo systemctl stop validator \
-                && echo \“Beacon stop\" \                  
-                && sudo systemctl stop beacon \
-                && echo \“Geth stop\" \                  
-                && sudo systemctl stop geth \
-                && echo \”Done.\"'
+alias all.start='echo \“All start .….\” && echo \“Geth start\" && sudo systemctl start geth && echo \“Beacon start\" && sudo systemctl start beacon && echo \“validator start\" && sudo systemctl start validator && echo \“MEV Boost start\" && sudo systemctl start mevboost && echo \“Done.\"'
+alias all.stop='echo \”All Stop …..\” && echo \“MEV Boost stop\" && sudo systemctl stop mevboost && echo \“validator stop\" && sudo systemctl stop validator && echo \“Beacon stop\" && sudo systemctl stop beacon && echo \“Geth stop\" && sudo systemctl stop geth && echo \”Done.\"'
 alias gbvm.start='echo \“Wait for 40s .….\” \
                   && sudo systemctl start geth \
                   && sleep 10s \
