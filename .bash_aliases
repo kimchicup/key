@@ -8,7 +8,7 @@
 # source 는 단축키 파일을 불러들인다.
 # 원본 파일 주소 https://raw.githubusercontent.com/kimchicup/key/main/.bash_aliases
 # echo -  echo \”화면에표시\"
-#
+# read -p "표시하고싶은말"
 #
 # ★폴더에 권한주기만 잘 하면 됨. 다시 원래대로 돌릴 경우에도 다시 지정해줘야 함. eth2/shared/jwt파일 일치시키기★
 # 0. 폴더 만들기 1. geth 폴더 통으로 복사하기 2. 권한주기 3. 서비스 파일 내 data 주소 변경(g.edit) 4. update(n.reload)
@@ -42,7 +42,9 @@ alias key.update='cd ~ && rm ~/.bash_aliases && curl -s -O https://raw.githubuse
 alias key.list="alias"
 # auto start & stop
 alias all.start='echo \"All start!!! \" \
-                 && sleep 1s \
+                 && echo \"geth, beacon, validator, mevboost를 순차적으로 실행합니다. \" \
+                 && echo \"메인넷입니다. 다른컴퓨와 validator가 중복실행되지 않는지 반드시 확인하세요. \" \
+                 && read -p "계속하려면 아무키나 누르세요.(원치 않을시 Ctrl + C로 종료하세요.)" \
                  && echo \"Geth start\" \
                  && sudo systemctl start geth \
                  && echo \"Wait 3\" \
@@ -59,6 +61,9 @@ alias all.start='echo \"All start!!! \" \
                  && sleep 1s \
                  && echo \"Wait 1\" \
                  && sleep 1s \
+                 && echo \"geth node와 beacon node를 실행했습니다. \" \
+                 && echo \"메인넷입니다. 다른컴퓨터와 validator가 중복실행되지 않는지 한번 더 확인하세요.\" \
+                 && read -p "계속하려면 아무키나 누르세요.(원치 않을시 Ctrl + C로 종료하세요.)" \
                  && echo \"validator start\" \
                  && sudo systemctl start validator \
                  && echo \"Wait 3\" \
@@ -71,6 +76,8 @@ alias all.start='echo \"All start!!! \" \
                  && sudo systemctl start mevboost \
                  && echo \"Done.\"'
 alias all.stop='echo \"All Stop!!! \" \
+                 && echo \"mevboost, validator, beacon, geth를 순차적으로 종료합니다. \" \
+                 && read -p "계속하려면 아무키나 누르세요.(원치 않을시 Ctrl + C로 종료하세요.)" \
                  && echo \“MEV Boost stop\" \
                  && sudo systemctl stop mevboost \
                  && echo \"Wait 3\" \
