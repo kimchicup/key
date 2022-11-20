@@ -75,6 +75,16 @@ alias all.start='echo \"All start!!! \" \
                  && echo \"MEV Boost start\" \
                  && sudo systemctl start mevboost \
                  && echo \"Done.\"'
+alias node.start='echo \"Node start!!! \" \
+                 && echo \"geth와 beacon 노드를 순차적으로 실행합니다. \" \
+                 && read -p "계속하려면 아무키나 누르세요.(원치 않을시 Ctrl + C로 종료하세요.)" \
+                 && echo \"Geth start\" \
+                 && sudo systemctl start geth \
+                 && echo \"Wait 1\" \
+                 && sleep 1s \
+                 && echo \"Beacon start\" \
+                 && sudo systemctl start beacon \
+                 && echo \"Done.\"'
 alias all.stop='echo \"All Stop!!! \" \
                  && echo \"mevboost, validator, beacon, geth를 순차적으로 종료합니다. \" \
                  && read -p "계속하려면 아무키나 누르세요.(원치 않을시 Ctrl + C로 종료하세요.)" \
@@ -101,6 +111,16 @@ alias all.stop='echo \"All Stop!!! \" \
                  && echo \"Wait 2\" \
                  && sleep 1s \
                  && echo \"Wait 1\" \
+                 && sleep 1s \
+                 && echo \"Geth stop\" \
+                 && sudo systemctl stop geth \
+                 && echo \"Done.\"'
+alias node.stop='echo \"Node Stop!!! \" \
+                 && echo \"beacon과 geth를 순차적으로 종료합니다. \" \
+                 && read -p "계속하려면 아무키나 누르세요.(원치 않을시 Ctrl + C로 종료하세요.)" \
+                 && echo \"Beacon stop\" \
+                 && sudo systemctl stop beacon \
+                 && echo \"Wait 1 second\" \
                  && sleep 1s \
                  && echo \"Geth stop\" \
                  && sudo systemctl stop geth \
@@ -142,8 +162,22 @@ alias bv.stop='echo \”Wait for 10s …..\” \
 #
 alias n.reload='sudo systemctl daemon-reload'
 alias n.update='sudo apt update -y && sudo apt upgrade -y && sudo apt dist-upgrade -y && sudo apt autoremove -y'
-alias n.disable='sudo systemctl disable geth && sudo systemctl disable beacon && sudo systemctl disable validator'
-alias n.enable='sudo systemctl enable geth && sudo systemctl enable beacon && sudo systemctl enable validator'
+alias n.disable='echo \"Auto start Disable!!! \" \
+                 && echo \"geth, beacon, validator 및 mevboost의 자동실행을 해지합니다.\" \
+                 && read -p "계속하려면 아무키나 누르세요.(원치 않을시 Ctrl + C로 종료하세요.)" \
+                 && sudo systemctl disable geth \
+                 && sudo systemctl disable beacon \
+                 && sudo systemctl disable validator \
+                 && sudo systemctl disable mevboost \
+                 && echo \”Done.\"'
+alias n.enable='echo \"Auto start enable!!! \" \
+                 && echo \"부팅시 geth, beacon, validator 및 mevboost를 자동실행합니다.\" \
+                 && read -p "계속하려면 아무키나 누르세요.(원치 않을시 Ctrl + C로 종료하세요.)" \
+                 && sudo systemctl enable geth \
+                 && sudo systemctl enable beacon \
+                 && sudo systemctl enable validator \
+                 && sudo systemctl enable mevboost \
+                 && echo \”Done.\"'
 alias n.size='sudo du -hs /home/eth2/eth1 && sudo du -hs /home/eth2/beacon && sudo du -hs /home/eth2/validator && df -h --total | grep total'
 alias n2.size='sudo du -hs /home/eth2/eth1 && sudo du -hs /home2/eth2/eth1 && sudo du -hs /home/eth2/beacon && sudo du -hs /home/eth2/validator && df -h --total | grep total'
 alias g.start='sudo systemctl start geth'
