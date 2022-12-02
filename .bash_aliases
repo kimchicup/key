@@ -47,18 +47,10 @@ alias all.start='echo \"All start!!! \" \
                  && read -p "계속하려면 아무키나 누르세요.(원치 않을시 Ctrl + C로 종료하세요.)" \
                  && echo \"Geth start\" \
                  && sudo systemctl start geth \
-                 && echo \"Wait 3\" \
-                 && sleep 1s \
-                 && echo \"Wait 2\" \
-                 && sleep 1s \
                  && echo \"Wait 1\" \
                  && sleep 1s \
                  && echo \"Beacon start\" \
                  && sudo systemctl start beacon \
-                 && echo \"Wait 3\" \
-                 && sleep 1s \
-                 && echo \"Wait 2\" \
-                 && sleep 1s \
                  && echo \"Wait 1\" \
                  && sleep 1s \
                  && echo \"geth node와 beacon node를 실행했습니다. \" \
@@ -66,10 +58,6 @@ alias all.start='echo \"All start!!! \" \
                  && read -p "계속하려면 아무키나 누르세요.(원치 않을시 Ctrl + C로 종료하세요.)" \
                  && echo \"validator start\" \
                  && sudo systemctl start validator \
-                 && echo \"Wait 3\" \
-                 && sleep 1s \
-                 && echo \"Wait 2\" \
-                 && sleep 1s \
                  && echo \"Wait 1\" \
                  && sleep 1s \
                  && echo \"MEV Boost start\" \
@@ -90,26 +78,14 @@ alias all.stop='echo \"All Stop!!! \" \
                  && read -p "계속하려면 아무키나 누르세요.(원치 않을시 Ctrl + C로 종료하세요.)" \
                  && echo \“MEV Boost stop\" \
                  && sudo systemctl stop mevboost \
-                 && echo \"Wait 3\" \
-                 && sleep 1s \
-                 && echo \"Wait 2\" \
-                 && sleep 1s \
                  && echo \"Wait 1\" \
                  && sleep 1s \
                  && echo \“validator stop\" \
                  && sudo systemctl stop validator \
-                 && echo \"Wait 3\" \
-                 && sleep 1s \
-                 && echo \"Wait 2\" \
-                 && sleep 1s \
                  && echo \"Wait 1\" \
                  && sleep 1s \
                  && echo \"Beacon stop\" \
                  && sudo systemctl stop beacon \
-                 && echo \"Wait 3\" \
-                 && sleep 1s \
-                 && echo \"Wait 2\" \
-                 && sleep 1s \
                  && echo \"Wait 1\" \
                  && sleep 1s \
                  && echo \"Geth stop\" \
