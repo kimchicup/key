@@ -45,59 +45,43 @@ alias all.start='echo \"All start!!! \" \
                  && echo \"geth, beacon, validator, mevboost를 순차적으로 실행합니다. \" \
                  && echo \"메인넷입니다. 다른컴퓨와 validator가 중복실행되지 않는지 반드시 확인하세요. \" \
                  && read -p "계속하려면 아무키나 누르세요.(원치 않을시 Ctrl + C로 종료하세요.)" \
-                 && echo \"Geth start\" \
                  && sudo systemctl start geth \
-                 && echo \"Wait 1\" \
-                 && sleep 1s \
+                 && echo \"Geth start\" \
                  && echo \"Beacon start\" \
                  && sudo systemctl start beacon \
-                 && echo \"Wait 1\" \
-                 && sleep 1s \
                  && echo \"geth node와 beacon node를 실행했습니다. \" \
                  && echo \"메인넷입니다. 다른컴퓨터와 validator가 중복실행되지 않는지 한번 더 확인하세요.\" \
                  && read -p "계속하려면 아무키나 누르세요.(원치 않을시 Ctrl + C로 종료하세요.)" \
                  && echo \"validator start\" \
                  && sudo systemctl start validator \
-                 && echo \"Wait 1\" \
-                 && sleep 1s \
                  && echo \"MEV Boost start\" \
                  && sudo systemctl start mevboost \
                  && echo \"Done.\"'
 alias node.start='echo \"Node start!!! \" \
                  && echo \"geth와 beacon 노드를 순차적으로 실행합니다. \" \
                  && read -p "계속하려면 아무키나 누르세요.(원치 않을시 Ctrl + C로 종료하세요.)" \
-                 && echo \"Geth start\" \
                  && sudo systemctl start geth \
-                 && echo \"Wait 1\" \
-                 && sleep 1s \
+                 && echo \"Geth start\" \
                  && echo \"Beacon start\" \
                  && sudo systemctl start beacon \
                  && echo \"Done.\"'
 alias all.stop='echo \"All Stop!!! \" \
                  && echo \"mevboost, validator, beacon, geth를 순차적으로 종료합니다. \" \
                  && read -p "계속하려면 아무키나 누르세요.(원치 않을시 Ctrl + C로 종료하세요.)" \
-                 && echo \“MEV Boost stop\" \
                  && sudo systemctl stop mevboost \
-                 && echo \"Wait 1\" \
-                 && sleep 1s \
+                 && echo \“MEV Boost stop\" \
                  && echo \“validator stop\" \
                  && sudo systemctl stop validator \
-                 && echo \"Wait 1\" \
-                 && sleep 1s \
                  && echo \"Beacon stop\" \
                  && sudo systemctl stop beacon \
-                 && echo \"Wait 1\" \
-                 && sleep 1s \
                  && echo \"Geth stop\" \
                  && sudo systemctl stop geth \
                  && echo \"Done.\"'
 alias node.stop='echo \"Node Stop!!! \" \
                  && echo \"beacon과 geth를 순차적으로 종료합니다. \" \
                  && read -p "계속하려면 아무키나 누르세요.(원치 않을시 Ctrl + C로 종료하세요.)" \
-                 && echo \"Beacon stop\" \
                  && sudo systemctl stop beacon \
-                 && echo \"Wait 1 second\" \
-                 && sleep 1s \
+                 && echo \"Beacon stop\" \
                  && echo \"Geth stop\" \
                  && sudo systemctl stop geth \
                  && echo \"Done.\"'
