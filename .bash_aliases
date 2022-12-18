@@ -54,7 +54,7 @@ alias all.restart='echo \"All restart!!! \" \
                  && sudo systemctl stop beacon \
                  && echo \"Geth stop\" \
                  && sudo systemctl stop geth \
-                 && echo \"All Stop Done.\"'
+                 && echo \"All Stop Done.\" \
                  && echo \"geth, beacon, validator, mevboost를 순차적으로 다시 실행합니다. \" \
                  && echo \"메인넷입니다. 다른컴퓨와 validator가 중복실행되지 않는지 반드시 확인하세요. \" \
                  && read -p "계속하려면 아무키나 누르세요.(원치 않을시 Ctrl + C로 종료하세요.)" \
@@ -79,7 +79,7 @@ alias node.restart='echo \"Node restart!!! \" \
                  && echo \"Beacon stop\" \
                  && echo \"Geth stop\" \
                  && sudo systemctl stop geth \
-                 && echo \"Done.\"'
+                 && echo \"Done.\" \
                  && echo \"geth와 beacon 노드를 순차적으로 실행합니다. \" \
                  && read -p "계속하려면 아무키나 누르세요.(원치 않을시 Ctrl + C로 종료하세요.)" \
                  && sudo systemctl start geth \
