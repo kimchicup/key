@@ -41,6 +41,18 @@ alias key.edit='sudo nano ~/.bash_aliases'
 alias key.update='cd ~ && rm ~/.bash_aliases && curl -s -O https://raw.githubusercontent.com/kimchicup/key/main/.bash_aliases && source ~/.bash_aliases && echo \“*** Shortcut Keys Updated Successfully...\"'
 alias key.list="alias"
 # auto start & stop
+alias all.restart='echo \"All restart!!! \" \
+                 && echo \"geth, beacon, validator, mevboost를 재실행합니다. \" \
+                 && echo \"메인넷입니다. 다른컴퓨와 validator가 중복실행되지 않는지 반드시 확인하세요. \" \
+                 && read -p "계속하려면 아무키나 누르세요.(원치 않을시 Ctrl + C로 종료하세요.)" \
+                 && all.stop
+                 && all.start
+alias node.restart='echo \"Node restart!!! \" \
+                 && echo \"geth, beacon을 재실행합니다. \" \
+                 && echo \"메인넷인지 다른컴퓨와 validator가 중복실행되지 않는지 반드시 확인하세요. \" \
+                 && read -p "계속하려면 아무키나 누르세요.(원치 않을시 Ctrl + C로 종료하세요.)" \
+                 && node.stop
+                 && node.start
 alias all.start='echo \"All start!!! \" \
                  && echo \"geth, beacon, validator, mevboost를 순차적으로 실행합니다. \" \
                  && echo \"메인넷입니다. 다른컴퓨와 validator가 중복실행되지 않는지 반드시 확인하세요. \" \
