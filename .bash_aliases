@@ -45,14 +45,48 @@ alias all.restart='echo \"All restart!!! \" \
                  && echo \"geth, beacon, validator, mevboost를 재실행합니다. \" \
                  && echo \"메인넷입니다. 다른컴퓨와 validator가 중복실행되지 않는지 반드시 확인하세요. \" \
                  && read -p "계속하려면 아무키나 누르세요.(원치 않을시 Ctrl + C로 종료하세요.)" \
-                 && all.stop \
-                 && all.start \
+                 && echo \"mevboost, validator, beacon, geth를 순차적으로 종료합니다. \" \
+                 && sudo systemctl stop mevboost \
+                 && echo \“MEV Boost stop\" \
+                 && echo \“validator stop\" \
+                 && sudo systemctl stop validator \
+                 && echo \"Beacon stop\" \
+                 && sudo systemctl stop beacon \
+                 && echo \"Geth stop\" \
+                 && sudo systemctl stop geth \
+                 && echo \"All Stop Done.\"'
+                 && echo \"geth, beacon, validator, mevboost를 순차적으로 다시 실행합니다. \" \
+                 && echo \"메인넷입니다. 다른컴퓨와 validator가 중복실행되지 않는지 반드시 확인하세요. \" \
+                 && read -p "계속하려면 아무키나 누르세요.(원치 않을시 Ctrl + C로 종료하세요.)" \
+                 && sudo systemctl start geth \
+                 && echo \"Geth start\" \
+                 && echo \"Beacon start\" \
+                 && sudo systemctl start beacon \
+                 && echo \"geth node와 beacon node를 실행했습니다. \" \
+                 && echo \"메인넷입니다. 다른컴퓨터와 validator가 중복실행되지 않는지 한번 더 확인하세요.\" \
+                 && read -p "계속하려면 아무키나 누르세요.(원치 않을시 Ctrl + C로 종료하세요.)" \
+                 && echo \"validator start\" \
+                 && sudo systemctl start validator \
+                 && echo \"MEV Boost start\" \
+                 && sudo systemctl start mevboost \
+                 && echo \"All Restart Done.\"'
 alias node.restart='echo \"Node restart!!! \" \
                  && echo \"geth, beacon을 재실행합니다. \" \
                  && echo \"메인넷인지 다른컴퓨와 validator가 중복실행되지 않는지 반드시 확인하세요. \" \
                  && read -p "계속하려면 아무키나 누르세요.(원치 않을시 Ctrl + C로 종료하세요.)" \
-                 && node.stop \
-                 && node.start \
+                 && echo \"beacon과 geth를 순차적으로 종료합니다. \" \
+                 && sudo systemctl stop beacon \
+                 && echo \"Beacon stop\" \
+                 && echo \"Geth stop\" \
+                 && sudo systemctl stop geth \
+                 && echo \"Done.\"'
+                 && echo \"geth와 beacon 노드를 순차적으로 실행합니다. \" \
+                 && read -p "계속하려면 아무키나 누르세요.(원치 않을시 Ctrl + C로 종료하세요.)" \
+                 && sudo systemctl start geth \
+                 && echo \"Geth start\" \
+                 && echo \"Beacon start\" \
+                 && sudo systemctl start beacon \
+                 && echo \"Done.\"'
 alias all.start='echo \"All start!!! \" \
                  && echo \"geth, beacon, validator, mevboost를 순차적으로 실행합니다. \" \
                  && echo \"메인넷입니다. 다른컴퓨와 validator가 중복실행되지 않는지 반드시 확인하세요. \" \
