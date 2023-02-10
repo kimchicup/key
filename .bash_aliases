@@ -165,6 +165,13 @@ alias bv.stop='echo \”Wait for 10s …..\” \
                   && sudo systemctl stop validator && sleep 5s \
                   && sudo systemctl stop beacon \
                   && echo \”Done.\"'
+
+alias g.prune='echo \"Geth prune!!! \" \
+                 && echo \"Geth를 프루닝하여 용량을 줄입니다.. \" \
+                 && read -p "계속하려면 아무키나 누르세요." \
+                 && sudo systemctl stop geth \
+                 && sudo -u geth geth --datadir=/home/eth2/eth1 snapshot prune-state \
+                 && echo \"Done.\"'
 #
 alias n.reload='sudo systemctl daemon-reload'
 alias n.update='sudo apt update -y && sudo apt upgrade -y && sudo apt dist-upgrade -y && sudo apt autoremove -y'
