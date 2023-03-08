@@ -187,21 +187,6 @@ alias n.enable='echo \"Auto start enable!!! \" \
                  && sudo systemctl enable validator \
                  && sudo systemctl enable mevboost \
                  && echo \”Done.\"'
-alias re.boot='echo \"All stop & reboot!!! \" \
-                 && echo \"geth, beacon, validator, mevboost를 종료후 재부팅합니다. \" \
-                 && echo \"메인넷입니다. 다른컴퓨와 validator가 중복실행되지 않는지 반드시 확인하세요. \" \
-                 && read -p "계속하려면 아무키나 누르세요.(원치 않을시 Ctrl + C로 종료하세요.)" \
-                 && echo \"mevboost, validator, beacon, geth를 순차적으로 종료 후 재부팅합니다.. \" \
-                 && sudo systemctl stop mevboost \
-                 && echo \“MEV Boost stop\" \
-                 && echo \“validator stop\" \
-                 && sudo systemctl stop validator \
-                 && echo \"Beacon stop\" \
-                 && sudo systemctl stop beacon \
-                 && echo \"Geth stop\" \
-                 && sudo systemctl stop geth \
-                 && echo \"All Stop Done.\" \
-                 && sudo systemctl reboot'
 alias n.size='sudo du -hs /home/eth2/eth1 && sudo du -hs /home/eth2/beacon && sudo du -hs /home/eth2/validator && df -h --total | grep total'
 alias n2.size='sudo du -hs /home/eth2/eth1 && sudo du -hs /home2/eth2/eth1 && sudo du -hs /home/eth2/beacon && sudo du -hs /home/eth2/validator && df -h --total | grep total'
 alias g.start='sudo systemctl start geth'
