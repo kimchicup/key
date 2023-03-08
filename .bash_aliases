@@ -201,7 +201,7 @@ alias re.boot='echo \"All stop & reboot!!! \" \
                  && echo \"Geth stop\" \
                  && sudo systemctl stop geth \
                  && echo \"All Stop Done.\" \
-                 && reboot '
+                 && sudo systemctl reboot'
 alias n.size='sudo du -hs /home/eth2/eth1 && sudo du -hs /home/eth2/beacon && sudo du -hs /home/eth2/validator && df -h --total | grep total'
 alias n2.size='sudo du -hs /home/eth2/eth1 && sudo du -hs /home2/eth2/eth1 && sudo du -hs /home/eth2/beacon && sudo du -hs /home/eth2/validator && df -h --total | grep total'
 alias g.start='sudo systemctl start geth'
