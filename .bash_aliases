@@ -43,7 +43,7 @@ alias key.list="alias"
 # auto start & stop
 alias all.restart='echo \"All restart!!! \" \
                  && echo \"geth, beacon, validator, mevboost를 재실행합니다. \" \
-                 && echo \"메인넷입니다. 다른컴퓨와 validator가 중복실행되지 않는지 반드시 확인하세요. \" \
+                 && echo \"메인넷입니다. 다른컴퓨와 validator가 중복실행되지 않는지 반드시 확인하세요.  만일 geth와 beacon만 재실행하시려면 node.restart를 실행하세요.\" \
                  && read -p "계속하려면 아무키나 누르세요.(원치 않을시 Ctrl + C로 종료하세요.)" \
                  && echo \"mevboost, validator, beacon, geth를 순차적으로 종료합니다. \" \
                  && sudo systemctl stop mevboost \
@@ -70,7 +70,7 @@ alias all.restart='echo \"All restart!!! \" \
                  && echo \"All Restart Done.\"'
 alias node.restart='echo \"Node restart!!! \" \
                  && echo \"geth, beacon을 재실행합니다. \" \
-                 && echo \"메인넷인지 다른컴퓨와 validator가 중복실행되지 않는지 반드시 확인하세요. \" \
+                 && echo \"메인넷인지 다른컴퓨와 validator가 중복실행되지 않는지 반드시 확인하세요. geth,beacon,validator,MEV를 모두 재실행하시려면 all.node를 실행하세요.\" \
                  && read -p "계속하려면 아무키나 누르세요.(원치 않을시 Ctrl + C로 종료하세요.)" \
                  && echo \"beacon과 geth를 순차적으로 종료합니다. \" \
                  && sudo systemctl stop beacon \
@@ -86,7 +86,7 @@ alias node.restart='echo \"Node restart!!! \" \
                  && echo \"Done.\"'
 alias all.start='echo \"All start!!! \" \
                  && echo \"geth, beacon, validator, mevboost를 순차적으로 실행합니다. \" \
-                 && echo \"메인넷입니다. 다른컴퓨와 validator가 중복실행되지 않는지 반드시 확인하세요. \" \
+                 && echo \"메인넷입니다. 다른컴퓨와 validator가 중복실행되지 않는지 반드시 확인하세요. node(geth+beacon)만 실행하시려면 node.start를 실행하세요.\" \
                  && read -p "계속하려면 아무키나 누르세요.(원치 않을시 Ctrl + C로 종료하세요.)" \
                  && sudo systemctl start geth \
                  && echo \"Geth start\" \
@@ -101,7 +101,7 @@ alias all.start='echo \"All start!!! \" \
                  && sudo systemctl start mevboost \
                  && echo \"Done.\"'
 alias node.start='echo \"Node start!!! \" \
-                 && echo \"geth와 beacon 노드를 순차적으로 실행합니다. \" \
+                 && echo \"geth와 beacon 노드를 순차적으로 실행합니다. geth,beacon,validator,MEV\" \
                  && read -p "계속하려면 아무키나 누르세요.(원치 않을시 Ctrl + C로 종료하세요.)" \
                  && sudo systemctl start geth \
                  && echo \"Geth start\" \
