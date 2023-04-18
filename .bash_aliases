@@ -100,14 +100,14 @@ alias all.start='echo \"All start!!! \" \
                  && echo \"MEV Boost start\" \
                  && sudo systemctl start mevboost \
                  && echo \"Done.\"'
-alias node.start='echo \"Node start!!! \" \
-                 && echo \"geth와 beacon 노드만 순차적으로 실행합니다. \" \
+alias node.start='echo "Node start!!! " \
+                 && echo "geth와 beacon 노드만 순차적으로 실행합니다. " \
                  && read -p "계속하려면 아무키나 누르세요.(원치 않을시 Ctrl + C로 종료하세요.)" \
                  && sudo systemctl start geth \
-                 && echo \"Geth start\" \
-                 && echo \"Beacon start\" \
+                 && echo "Geth start" \
+                 && echo "Beacon start" \
                  && sudo systemctl start beacon \
-                 && echo \"Done.\"'
+                 && echo "Done."'
 alias all.stop='echo \"All Stop!!! \" \
                  && echo \"mevboost, validator, beacon, geth를 순차적으로 종료합니다. \" \
                  && read -p "계속하려면 아무키나 누르세요.(원치 않을시 Ctrl + C로 종료하세요.)" \
