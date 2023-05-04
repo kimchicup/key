@@ -10,13 +10,11 @@
 # read -p "표시하고싶은말"
 # 단축키설명,xxx.yyy로 구성
 # n=node, g=geth, b=beacon, v=validator, m=MEV boost, key=단축키
-# alias xxx.yyy=read -p "설명" && "명령어"
-
-alias key.down=read -p "단축키 다운로드" && 'curl -O https://raw.githubusercontent.com/kimchicup/key/main/.bash_aliases'
-alias key.reload=read -p "단축키 업데이트 적용" && 'source ~/.bash_aliases'
-alias key.edit=read -p "단축키 수정" && 'sudo nano ~/.bash_aliases'
-alias key.update=read -p "단축키 자동업데이트" && 'cd ~ && rm ~/.bash_aliases && curl -s -O https://raw.githubusercontent.com/kimchicup/key/main/.bash_aliases && source ~/.bash_aliases && echo "*** Shortcut Keys Updated Successfully..."'
-alias key.list=read -p "단축기 리스트" && "alias"
+alias key.down='curl -O https://raw.githubusercontent.com/kimchicup/key/main/.bash_aliases'
+alias key.reload='source ~/.bash_aliases'
+alias key.edit='sudo nano ~/.bash_aliases'
+alias key.update='cd ~ && rm ~/.bash_aliases && curl -s -O https://raw.githubusercontent.com/kimchicup/key/main/.bash_aliases && source ~/.bash_aliases && echo "*** Shortcut Keys Updated Successfully..."'
+alias key.list="alias"
 
 # auto start & stop
 alias all.restart='echo \"All restart!!! \" \
@@ -148,9 +146,9 @@ alias g.prune='echo \"Geth prune!!! \" \
                  && echo \"Done.\"'
 
 # 설정변경 적용
-alias n.reload=read -p "설정변경 적용" && 'sudo systemctl daemon-reload'
+alias n.reload='sudo systemctl daemon-reload'
 # 업데이트
-alias n.update=read -p "전체 업데이트" && 'sudo apt update -y && sudo apt upgrade -y && sudo apt dist-upgrade -y && sudo apt autoremove -y'
+alias n.update='sudo apt update -y && sudo apt upgrade -y && sudo apt dist-upgrade -y && sudo apt autoremove -y'
 
 # 부팅시 노드 자동실행 취소
 alias n.disable='echo \"Auto start Disable!!! \" \
