@@ -1,20 +1,45 @@
-# ShortCut Key for Local Maintenance
+# ShortCut Key for Local Maintenance (22/10/23)
 # #은 메모기능으로 사용 
 # 본서버가 오류가 났을때 대처법
 # curl -O https://raw.githubusercontent.com/kimchicup/key/main/.bash_aliases
 # curl 는  파일을 다운받는다. 
+#
 # source ~/.bash_aliases
 # source 는 단축키 파일을 불러들인다.
 # 원본 파일 주소 https://raw.githubusercontent.com/kimchicup/key/main/.bash_aliases
 # echo -  echo \”화면에표시\"
 # read -p "표시하고싶은말"
+#
+# ★폴더에 권한주기만 잘 하면 됨. 다시 원래대로 돌릴 경우에도 다시 지정해줘야 함. eth2/shared/jwt파일 일치시키기★
+# 0. 폴더 만들기 1. geth 폴더 통으로 복사하기 2. 권한주기 3. 서비스 파일 내 data 주소 변경(g.edit) 4. update(n.reload)
+# ★sudo mkdir -p /media/USERname/SSDname/eth2/eth1 ★
+# ★sudo chown -R USERname:USERname /media/USERname/SSDname/eth2/eth1         -->>(파일을 복사하기위해)/media/USERname/SSDname/eth2/eth1 폴더에 대한 권한을 `USERname`에 지정 ★
+# ★sudo chown -R geth:geth /media/USERname/SSDname/eth2/eth1               -->>(geth를 실행하기위해)/media/USERname/SSDname/eth2/eth1 폴더에 대한 권한을 `geth`에 지정 ★
+# ★sudo chown -R validator:validator /home/eth2/validator   validator 권한주기
 
+# sudo -u geth chmod -R 700 /media/USERname/SSDname/eth2/eth1 -->>media를 geth에 권한 지정 (????)
+# sudo chown -R beacon:beacon /home/eth2/beacon  - beacon에 권한 지정
+# sudo chown -R beacon:beacon /home/eth2/shared  - beacon에 권한 지정
+
+# sudo nano /etc/systemd/system/geth.service
+# ExecStart=geth --http --datadir=/home/eth2/eth1 \   -->>>> ExecStart=geth --http --datadir=/media/USERname/SSDname/eth2/eth1 \
+# n.reload
+
+# 아이디어
+# short key 자동으로 geth 하드디스크를 변경하는 방법
+# geth 서비스파일 2개 원본을 만듬. -> 상황에따라 바꿔서 복사해서 덮어쓰기.  -> 서비스파일 reload. geth 재시작. 
+# step by step으로 적용. 
+# 1. g.stop
+# 2. (서비스파일 변경 or 선택메뉴)파일 복사 
+# 3. n.reload 
+# 4. 권한주기 sudo chown -R geth:geth /media/eth2/eth1  -->>media/eth2/eth1 
+# 5. g.start
+# ShortCut Key for Local Maintenance (20/12/01)
 alias key.down='curl -O https://raw.githubusercontent.com/kimchicup/key/main/.bash_aliases'
 alias key.reload='source ~/.bash_aliases'
 alias key.edit='sudo nano ~/.bash_aliases'
-alias key.update='cd ~ && rm ~/.bash_aliases && curl -s -O https://raw.githubusercontent.com/kimchicup/key/main/.bash_aliases && source ~/.bash_aliases && echo "*** Shortcut Keys Updated Successfully..."'
+alias key.update='cd ~ && rm ~/.bash_aliases && curl -s -O https://raw.githubusercontent.com/kimchicup/key/main/.bash_aliases && source ~/.bash_aliases && echo \“*** Shortcut Keys Updated Successfully...\"'
 alias key.list="alias"
-
 # auto start & stop
 alias all.restart='echo \"All restart!!! \" \
                  && echo \"geth, beacon, validator, mevboost를 재실행합니다. \" \
@@ -44,7 +69,7 @@ alias all.restart='echo \"All restart!!! \" \
                  && sudo systemctl start mevboost \
                  && echo \"All Restart Done.\"'
 alias node.restart='echo \"Node restart!!! \" \
-                 && echo \"geth, beacon만 재실행합니다. \" \
+                 && echo \"geth, beacon을 재실행합니다. \" \
                  && echo \"메인넷인지 다른컴퓨와 validator가 중복실행되지 않는지 반드시 확인하세요. geth,beacon,validator,MEV를 모두 재실행하시려면 all.node를 실행하세요.\" \
                  && read -p "계속하려면 아무키나 누르세요.(원치 않을시 Ctrl + C로 종료하세요.)" \
                  && echo \"beacon과 geth를 순차적으로 종료합니다. \" \
@@ -53,14 +78,14 @@ alias node.restart='echo \"Node restart!!! \" \
                  && echo \"Geth stop\" \
                  && sudo systemctl stop geth \
                  && echo \"Done.\" \
-                 && echo \"geth와 beacon 노드만 순차적으로 재실행합니다. \" \
+                 && echo \"geth와 beacon 노드를 순차적으로 재실행합니다. \" \
                  && sudo systemctl start geth \
                  && echo \"Geth start\" \
                  && echo \"Beacon start\" \
                  && sudo systemctl start beacon \
                  && echo \"Done.\"'
 alias all.start='echo \"All start!!! \" \
-                 && echo \"geth, beacon, validator, MEV를 순차적으로 실행합니다. \" \
+                 && echo \"geth, beacon, validator, mevboost를 순차적으로 실행합니다. \" \
                  && echo \"메인넷입니다. 다른컴퓨와 validator가 중복실행되지 않는지 반드시 확인하세요. node(geth+beacon)만 실행하시려면 node.start를 실행하세요.\" \
                  && read -p "계속하려면 아무키나 누르세요.(원치 않을시 Ctrl + C로 종료하세요.)" \
                  && sudo systemctl start geth \
@@ -75,14 +100,14 @@ alias all.start='echo \"All start!!! \" \
                  && echo \"MEV Boost start\" \
                  && sudo systemctl start mevboost \
                  && echo \"Done.\"'
-alias node.start='echo "Node start!!! " \
-                 && echo "geth와 beacon 노드만 순차적으로 실행합니다. " \
+alias node.start='echo \"Node start!!! \" \
+                 && echo \"geth와 beacon 노드를 순차적으로 실행합니다. geth,beacon,validator,MEV\" \
                  && read -p "계속하려면 아무키나 누르세요.(원치 않을시 Ctrl + C로 종료하세요.)" \
                  && sudo systemctl start geth \
-                 && echo "Geth start" \
-                 && echo "Beacon start" \
+                 && echo \"Geth start\" \
+                 && echo \"Beacon start\" \
                  && sudo systemctl start beacon \
-                 && echo "Done."'
+                 && echo \"Done.\"'
 alias all.stop='echo \"All Stop!!! \" \
                  && echo \"mevboost, validator, beacon, geth를 순차적으로 종료합니다. \" \
                  && read -p "계속하려면 아무키나 누르세요.(원치 않을시 Ctrl + C로 종료하세요.)" \
@@ -182,7 +207,6 @@ alias v.log='sudo journalctl -f -u validator.service'
 alias v.init='sudo systemctl start validator && sudo journalctl -f -u validator.service'
 alias v.edit='sudo nano /etc/systemd/system/validator.service'
 alias v.status='sudo systemctl status validator'
-
 # ShortCut Key for Node Maintenance (20/12/01)
 alias g.peer='curl -s http://localhost:6060/debug/metrics/prometheus | grep p2p_peers'
 alias b.peer='curl -s "localhost:3500/eth/v1alpha1/node/peers" | jq ".peers[].address" | wc -l'
@@ -212,7 +236,11 @@ alias v.error="journalctl -u validator | grep -e warning -e error | tail -30"
 alias b.chealth="curl -X GET \"https://beaconcha.in/api/healthz\" -H \"accept: text/plain\" -w \"\n\""
 
 # Update (22/08/31)
+alias s.update='cd ~ && rm ~/.bash_aliases && curl -s -O https://raw.githubusercontent.com/theniz/staking-bash-aliases/main/.bash_aliases \
+                && source ~/.bash_aliases && echo \“*** Shortcut Keys Updated Successfully...v221111\"'
+alias s.ver='echo \“Version - 221111\"'
 alias b.connect="curl -s http://localhost:3500/eth/v1alpha1/node/eth1/connections | jq"
+alias s.list="alias"
 
 # Update (22/09/15)
 alias v.vote='journalctl --since -60min -u validator | grep "Previous epoch aggregated voting summary"'
@@ -237,8 +265,3 @@ alias m.start='sudo systemctl start mevboost'
 alias m.status='sudo systemctl status mevboost'
 alias m.stop='sudo systemctl stop mevboost'
 alias m.ver='sudo /home/eth2/mevboost/bin/mev-boost -version'
-
-# Update 23.5.4
-# 키확인
-alias key.list='sudo -u validator /home/eth2/validator/bin/prysm.sh validator accounts list --wallet-dir=/home/eth2/validator/wallet/prysm-wallet --wallet-password-file=/home/eth2/validator/wallet/password'
-# 
