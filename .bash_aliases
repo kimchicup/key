@@ -237,3 +237,8 @@ alias m.start='sudo systemctl start mevboost'
 alias m.status='sudo systemctl status mevboost'
 alias m.stop='sudo systemctl stop mevboost'
 alias m.ver='sudo /home/eth2/mevboost/bin/mev-boost -version'
+
+# Update 23.5.4
+# 키확인
+alias key.list='sudo -u validator /home/eth2/validator/bin/prysm.sh validator accounts list --wallet-dir=/home/eth2/validator/wallet/prysm-wallet --wallet-password-file=/home/eth2/validator/wallet/password'
+# 
