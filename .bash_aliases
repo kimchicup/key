@@ -9,6 +9,11 @@
 # echo -  echo \”화면에표시\"
 # read -p "표시하고싶은말"
 
+
+# 단축키설명,xxx.yyy로 구성
+# n=node, g=geth, b=beacon, v=validator, m=MEV boost, key=단축키
+# 
+
 alias key.down='curl -O https://raw.githubusercontent.com/kimchicup/key/main/.bash_aliases'
 alias key.reload='source ~/.bash_aliases'
 alias key.edit='sudo nano ~/.bash_aliases'
@@ -143,9 +148,13 @@ alias g.prune='echo \"Geth prune!!! \" \
                  && sudo systemctl stop geth \
                  && sudo -u geth geth --datadir=/home/eth2/eth1 snapshot prune-state \
                  && echo \"Done.\"'
-#
+
+# 설정변경 적용
 alias n.reload='sudo systemctl daemon-reload'
+# 업데이트
 alias n.update='sudo apt update -y && sudo apt upgrade -y && sudo apt dist-upgrade -y && sudo apt autoremove -y'
+
+# 부팅시 노드 자동실행 취소
 alias n.disable='echo \"Auto start Disable!!! \" \
                  && echo \"geth, beacon, validator 및 mevboost의 자동실행을 해지합니다.\" \
                  && read -p "계속하려면 아무키나 누르세요.(원치 않을시 Ctrl + C로 종료하세요.)" \
@@ -154,6 +163,7 @@ alias n.disable='echo \"Auto start Disable!!! \" \
                  && sudo systemctl disable validator \
                  && sudo systemctl disable mevboost \
                  && echo \”Done.\"'
+# 부팅시 노드 자동실행 설정
 alias n.enable='echo \"Auto start enable!!! \" \
                  && echo \"부팅시 geth, beacon, validator 및 mevboost를 자동실행합니다.\" \
                  && read -p "계속하려면 아무키나 누르세요.(원치 않을시 Ctrl + C로 종료하세요.)" \
@@ -162,6 +172,7 @@ alias n.enable='echo \"Auto start enable!!! \" \
                  && sudo systemctl enable validator \
                  && sudo systemctl enable mevboost \
                  && echo \”Done.\"'
+
 alias n.size='sudo du -hs /home/eth2/eth1 && sudo du -hs /home/eth2/beacon && sudo du -hs /home/eth2/validator && df -h --total | grep total'
 alias n2.size='sudo du -hs /home/eth2/eth1 && sudo du -hs /home2/eth2/eth1 && sudo du -hs /home/eth2/beacon && sudo du -hs /home/eth2/validator && df -h --total | grep total'
 alias g.start='sudo systemctl start geth'
@@ -183,7 +194,7 @@ alias v.init='sudo systemctl start validator && sudo journalctl -f -u validator.
 alias v.edit='sudo nano /etc/systemd/system/validator.service'
 alias v.status='sudo systemctl status validator'
 
-# ShortCut Key for Node Maintenance (20/12/01)
+# 노드 관리 
 alias g.peer='curl -s http://localhost:6060/debug/metrics/prometheus | grep p2p_peers'
 alias b.peer='curl -s "localhost:3500/eth/v1alpha1/node/peers" | jq ".peers[].address" | wc -l'
 alias b.health='curl http://localhost:8080/healthz'
@@ -191,12 +202,11 @@ alias v.health='curl http://localhost:8081/healthz'
 alias b.chain="curl -s -X GET \"http://127.0.0.1:3500/eth/v1alpha1/beacon/chainhead\" -H \"accept: application/json\" | jq"
 alias g.sync="curl -s -X POST 127.0.0.1:8545 -H \"Content-Type: application/json\" --data '{\"jsonrpc\":\"2.0\",\"method\":\"eth_syncing\",\"id\":1}' | jq"
 alias b.sync="curl -s http://localhost:3500/eth/v1/node/syncing | jq"
-
 alias p.ver="curl -s -X GET \"http://127.0.0.1:3500/eth/v1alpha1/node/version\" -H \"accept: application/json\" | jq [.version]"
 alias v.idist="sudo journalctl -u validator | grep -a -i averageInclusionDistance | tail -30"
 alias b.prate="curl -s -X GET \"http://127.0.0.1:3500/eth/v1alpha1/validators/participation\" -H \"accept: application/json\" | jq"
 
-# Update (20/12/30)
+# 노드 관리 
 alias g.enable="sudo systemctl enable geth"
 alias b.enable="sudo systemctl enable beacon"
 alias v.enable="sudo systemctl enable validator"
@@ -217,7 +227,7 @@ alias b.connect="curl -s http://localhost:3500/eth/v1alpha1/node/eth1/connection
 # Update (22/09/15)
 alias v.vote='journalctl --since -60min -u validator | grep "Previous epoch aggregated voting summary"'
 
-# Update (22/09/19)
+# SSD 성능 test
 alias n.speed='cd ~ \
                && echo \“Writing...\" \
                && dd if=/dev/zero of=deleteme.dat bs=32M count=64 oflag=direct \
@@ -226,7 +236,7 @@ alias n.speed='cd ~ \
                && echo \“*** Done ***\" \
                && rm deleteme.dat'
 
-# Update (22/11/11)
+# MEV boost 관련
 alias m.disable='sudo systemctl disable mevboost'
 alias m.edit='sudo nano /etc/systemd/system/mevboost.service'
 alias m.enable='sudo systemctl enable mevboost'
@@ -237,8 +247,3 @@ alias m.start='sudo systemctl start mevboost'
 alias m.status='sudo systemctl status mevboost'
 alias m.stop='sudo systemctl stop mevboost'
 alias m.ver='sudo /home/eth2/mevboost/bin/mev-boost -version'
-
-# Update 23.5.4
-# 키확인
-alias key.list='sudo -u validator /home/eth2/validator/bin/prysm.sh validator accounts list --wallet-dir=/home/eth2/validator/wallet/prysm-wallet --wallet-password-file=/home/eth2/validator/wallet/password'
-# 
