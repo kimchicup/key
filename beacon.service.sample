@@ -1,0 +1,21 @@
+[Unit]
+Description=Beacon
+After=geth.target
+
+[Service]
+Type=simple
+User=beacon
+ExecStart=/home/eth2/beacon/bin/prysm.sh beacon-chain \
+     --datadir=/home/eth2/beacon \
+     --execution-endpoint=http://localhost:8551 \
+     --p2p-max-peers=100 \
+     --accept-terms-of-use \
+     --jwt-secret=/home/eth2/shared/jwt.hex \
+     --http-mev-relay=http://localhost:18550 \
+     --suggested-fee-recipient=지갑주소 
+
+Restart=always
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target

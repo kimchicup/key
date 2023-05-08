@@ -1,0 +1,20 @@
+[Unit]
+Description=Validator
+After=beacon.target
+
+[Service]
+Type=simple
+User=validator
+ExecStart=/home/eth2/validator/bin/prysm.sh validator \
+         --datadir=/home/eth2/validator  \
+         --wallet-dir=/home/eth2/validator/wallet/prysm-wallet \
+         --wallet-password-file=/home/eth2/validator/wallet/password \
+         --accept-terms-of-use \
+         --suggested-fee-recipient=지갑주소 \
+         --enable-builder 
+
+Restart=always
+RestartSec=5
+ 
+[Install]
+WantedBy=multi-user.target
