@@ -1,4 +1,4 @@
-# ShortCut Key for Local Maintenance (23/05/08)
+# ShortCut Key for Local Maintenance, geth & prysm ver. (23/05/08)
 # # 은 메모기능으로 사용 
 # echo -  echo \”화면에표시\"
 # read -p "표시하고싶은말"
@@ -127,7 +127,6 @@ alias n.speed='cd ~ \
                && rm deleteme.dat'
 alias n.itemp="cat /sys/class/thermal/thermal_zone*/temp"
 alias n.size='sudo du -hs /home/eth2/eth1 && sudo du -hs /home/eth2/beacon && sudo du -hs /home/eth2/validator && df -h --total | grep total'
-alias n2.size='sudo du -hs /home/eth2/eth1 && sudo du -hs /home/eth2/eth1 && sudo du -hs /home/eth2/beacon && sudo du -hs /home/eth2/validator && df -h --total | grep total'
 alias g.start='sudo systemctl start geth'
 alias g.stop='sudo systemctl stop geth'
 alias g.log='sudo journalctl -f -u geth.service'
