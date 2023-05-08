@@ -127,7 +127,7 @@ alias n.speed='cd ~ \
                && rm deleteme.dat'
 alias n.itemp="cat /sys/class/thermal/thermal_zone*/temp"
 alias n.size='sudo du -hs /home/eth2/eth1 && sudo du -hs /home/eth2/beacon && sudo du -hs /home/eth2/validator && df -h --total | grep total'
-alias n2.size='sudo du -hs /home/eth2/eth1 && sudo du -hs /home2/eth2/eth1 && sudo du -hs /home/eth2/beacon && sudo du -hs /home/eth2/validator && df -h --total | grep total'
+alias n2.size='sudo du -hs /home/eth2/eth1 && sudo du -hs /home/eth2/eth1 && sudo du -hs /home/eth2/beacon && sudo du -hs /home/eth2/validator && df -h --total | grep total'
 alias g.start='sudo systemctl start geth'
 alias g.stop='sudo systemctl stop geth'
 alias g.log='sudo journalctl -f -u geth.service'
