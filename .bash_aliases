@@ -185,3 +185,4 @@ alias m.start='sudo systemctl start mevboost'
 alias m.status='sudo systemctl status mevboost'
 alias m.stop='sudo systemctl stop mevboost'
 alias m.ver='sudo /home/eth2/mevboost/bin/mev-boost -version'
+alias p.ver="curl -s -X GET \"http://127.0.0.1:3500/eth/v1alpha1/node/version\" -H \"accept: application/json\" | jq [.version]"
