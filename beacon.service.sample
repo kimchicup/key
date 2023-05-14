@@ -5,6 +5,9 @@ After=geth.target
 [Service]
 Type=simple
 User=beacon
+#
+Environment="USE_PRYSM_VERSION=v4.0.3-hotfix"
+#
 ExecStart=/home/eth2/beacon/bin/prysm.sh beacon-chain \
      --datadir=/home/eth2/beacon \
      --execution-endpoint=http://localhost:8551 \
@@ -12,7 +15,7 @@ ExecStart=/home/eth2/beacon/bin/prysm.sh beacon-chain \
      --accept-terms-of-use \
      --jwt-secret=/home/eth2/shared/jwt.hex \
      --http-mev-relay=http://localhost:18550 \
-     --suggested-fee-recipient=지갑주소 
+     --suggested-fee-recipient=0xxxxxxxxxxxxxxxxxx
 
 Restart=always
 RestartSec=5
