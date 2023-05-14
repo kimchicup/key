@@ -1,3 +1,4 @@
+  GNU nano 6.2                                                                                                           /etc/systemd/system/geth.service                                                                                                                    
 [Unit]
 Description=Geth-Main
 After=network-online.target
@@ -5,7 +6,11 @@ After=network-online.target
 [Service]
 Type=simple
 User=geth
-ExecStart=geth --http --datadir=/home/eth2/eth1 \
+ExecStart=geth --http \
+               --datadir=/home/eth2/eth1 \
+#               --datadir.ancient=/media/prysm/backup \
+#               --datadir.ancient=/media/prysm/사진편집2 \
+#               --datadir.ancient=/ssd/eth2/eth1/geth/geth/chaindata/ancient \
                --metrics --pprof --cache=2048 \
                --authrpc.jwtsecret=/home/eth2/shared/jwt.hex \
                --authrpc.vhosts=localhost
@@ -15,3 +20,4 @@ RestartSec=5
 
 [Install]
 WantedBy=multi-user.target
+
