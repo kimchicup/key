@@ -103,6 +103,26 @@ alias node.restart='echo \"Node restart!!! \" \
                  && echo \"Beacon start\" \
                  && sudo systemctl start beacon \
                  && echo \"Done.\"'
+alias node.check='echo \"Geth version\" \
+                 && g.ver \
+                 && echo \"Prysm version\" \
+                 && b.ver \
+                 && echo \"MEV version\" \
+                 && m.ver \
+                 && echo \"Geth Peer\" \
+                 && g.peer \
+                 && echo \"Geth sync\" \
+                 && g.sync \
+                 && echo \"Beacon peer\" \
+                 && b.peer \
+                 && echo \"Beacon sync\" \
+                 && b.sync \
+                 && echo \"Temperature\" \
+                 && n.itemp \
+                 && echo \"node Size\" \
+                 && n.size \
+                 && echo \"SSD Speed\" \
+                 && n.speed '
 alias n.reload='sudo systemctl daemon-reload'
 alias n.update='sudo apt update -y && sudo apt upgrade -y && sudo apt dist-upgrade -y && sudo apt autoremove -y'
 alias n.disable='echo \"Auto start Disable!!! \" \
