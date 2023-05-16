@@ -13,6 +13,9 @@ alias key.update='cd ~ && rm ~/.bash_aliases \
                  && source ~/.bash_aliases \
                  && echo \“*** Shortcut Keys Updated Successfully...\"'
 alias key.list="alias"
+alias acc.list='sudo -u validator /home/eth2/validator/bin/prysm.sh validator accounts list \
+                 --wallet-dir=/home/eth2/validator/wallet/prysm-wallet \
+                 --wallet-password-file=/home/eth2/validator/wallet/password '
 alias all.start='echo \"All start!!! \" \
                  && echo \"geth, beacon, validator, mevboost를 순차적으로 실행합니다. \" \
                  && echo \"메인넷입니다. 다른컴퓨와 validator가 중복실행되지 않는지 반드시 확인하세요. node(geth+beacon)만 실행하시려면 node.start를 실행하세요.\" \
