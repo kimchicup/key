@@ -5,9 +5,7 @@ After=geth.target
 [Service]
 Type=simple
 User=beacon
-#
-Environment="USE_PRYSM_VERSION=v4.0.3-hotfix"
-#
+# Environment="USE_PRYSM_VERSION=v4.0.3-hotfix"
 ExecStart=/home/eth2/beacon/bin/prysm.sh beacon-chain \
      --datadir=/home/eth2/beacon \
      --execution-endpoint=http://localhost:8551 \
