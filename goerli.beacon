@@ -1,0 +1,27 @@
+[Unit]
+Description=Beacon
+After=geth.target
+
+[Service]
+Type=simple
+User=beacon
+ExecStart=/home/eth2/beacon/bin/prysm.sh beacon-chain \
+     --datadir=/home/eth2/beacon \
+     --execution-endpoint=http://localhost:8551 \
+     --p2p-max-peers=100 \
+     --accept-terms-of-use \
+     --jwt-secret=/home/eth2/shared/jwt.hex \
+     --suggested-fee-recipient=0xCa296De117AB89af6Eb356Ec1ff8e91d2b90606D \
+     --prater --genesis-state=/home/eth2/beacon/prater-genesis.ssz \
+     --checkpoint-sync-url=https://checkpoint-sync.goerli.ethpandaops.io \
+     --p2p-tcp-port=53000 \
+     --p2p-udp-port=52000
+
+
+
+Restart=always
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target
+
