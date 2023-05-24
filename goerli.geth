@@ -1,0 +1,19 @@
+[Unit]
+Description=Geth-Goerli
+After=network-online.target
+
+[Service]
+Type=simple
+User=geth
+ExecStart=geth --http --datadir=/home/eth2/eth1 \
+               --metrics --pprof --cache=2048 \
+               --authrpc.jwtsecret=/home/eth2/shared/jwt.hex \
+               --authrpc.vhosts=localhost \
+               --goerli --port=50505
+
+Restart=always
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target
+
