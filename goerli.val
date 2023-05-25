@@ -11,6 +11,7 @@ ExecStart=/home/eth2/validator/bin/prysm.sh validator \
           --wallet-password-file=/home/eth2/validator/wallet/password \
           --accept-terms-of-use \
           --suggested-fee-recipient=0xCa296De117AB89af6Eb356Ec1ff8e91d2b90606D \
+          --enable-builder \
           --prater
 
 Restart=always
