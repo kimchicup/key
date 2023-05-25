@@ -14,9 +14,9 @@ ExecStart=/home/eth2/beacon/bin/prysm.sh beacon-chain \
      --suggested-fee-recipient=0xCa296De117AB89af6Eb356Ec1ff8e91d2b90606D \
      --prater --genesis-state=/home/eth2/beacon/prater-genesis.ssz \
      --checkpoint-sync-url=https://checkpoint-sync.goerli.ethpandaops.io \
+     --http-mev-relay=http://localhost:18550 \
      --p2p-tcp-port=53000 \
      --p2p-udp-port=52000
-
 
 
 Restart=always
