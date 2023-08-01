@@ -209,6 +209,7 @@ alias m.status='sudo systemctl status mevboost'
 alias m.stop='sudo systemctl stop mevboost'
 alias m.ver='sudo /home/eth2/mevboost/bin/mev-boost -version'
 alias p.ver="curl -s -X GET \"http://127.0.0.1:3500/eth/v1alpha1/node/version\" -H \"accept: application/json\" | jq [.version]"
+# SSH setting 2023.8
 alias ssh.edit="sudo nano /etc/ssh/sshd_config"
 alias ssh.start="sudo systemctl start ssh"
 alias ssh.stop="sudo systemctl stop ssh"
