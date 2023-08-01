@@ -25,8 +25,8 @@ alias all.start='echo \"All start!!! \" \
                  && echo \"Beacon start\" \
                  && sudo systemctl start beacon \
                  && echo \"geth node와 beacon node를 실행했습니다. \" \
-                 && echo \"메인넷입니다. 다른컴퓨터와 validator가 중복실행되지 않는지 한번 더 확인하세요.\" \
-                 && read -p "계속하려면 아무키나 누르세요.(원치 않을시 Ctrl + C로 종료하세요.)" \
+#                 && echo \"메인넷입니다. 다른컴퓨터와 validator가 중복실행되지 않는지 한번 더 확인하세요.\" \
+#                 && read -p "계속하려면 아무키나 누르세요.(원치 않을시 Ctrl + C로 종료하세요.)" \
                  && echo \"validator start\" \
                  && sudo systemctl start validator \
                  && echo \"MEV Boost start\" \
