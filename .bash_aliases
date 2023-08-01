@@ -1,4 +1,4 @@
-# ShortCut Key for Local Maintenance, geth & prysm ver. (23/05/08)
+# ShortCut Key for Local Maintenance, geth & prysm ver. 23/05/08
 # # 은 메모기능으로 사용 
 # echo -  echo \”화면에표시\"
 # read -p "표시하고싶은말"
@@ -18,15 +18,15 @@ alias acc.list='sudo -u validator /home/eth2/validator/bin/prysm.sh validator ac
                  --wallet-password-file=/home/eth2/validator/wallet/password '
 alias all.start='echo \"All start!!! \" \
                  && echo \"geth, beacon, validator, mevboost를 순차적으로 실행합니다. \" \
-                 && echo \"메인넷입니다. 다른컴퓨와 validator가 중복실행되지 않는지 반드시 확인하세요. node(geth+beacon)만 실행하시려면 node.start를 실행하세요.\" \
-                 && read -p "계속하려면 아무키나 누르세요.(원치 않을시 Ctrl + C로 종료하세요.)" \
+                 && echo \"메인넷입니다. 다른컴퓨와 validator가 중복실행되지 않는지 반드시 확인하세요.  geth+beacon 만 실행하시려면 node.start를 실행하세요.\" \
+                 && read -p "계속하려면 아무키나 누르세요. 원치 않을시 Ctrl + C로 종료하세요." \
                  && sudo systemctl start geth \
                  && echo \"Geth start\" \
                  && echo \"Beacon start\" \
                  && sudo systemctl start beacon \
                  && echo \"geth node와 beacon node를 실행했습니다. \" \
-#                 && echo \"메인넷입니다. 다른컴퓨터와 validator가 중복실행되지 않는지 한번 더 확인하세요.\" \
-#                 && read -p "계속하려면 아무키나 누르세요.(원치 않을시 Ctrl + C로 종료하세요.)" \
+                 && echo \"메인넷입니다. 다른컴퓨터와 validator가 중복실행되지 않는지 한번 더 확인하세요.\" \
+                 && read -p "계속하려면 아무키나 누르세요. 원치 않을시 Ctrl + C로 종료하세요." \
                  && echo \"validator start\" \
                  && sudo systemctl start validator \
                  && echo \"MEV Boost start\" \
@@ -34,7 +34,7 @@ alias all.start='echo \"All start!!! \" \
                  && echo \"Done.\"'
 alias all.stop='echo \"All Stop!!! \" \
                  && echo \"mevboost, validator, beacon, geth를 순차적으로 종료합니다. \" \
-                 && read -p "계속하려면 아무키나 누르세요.(원치 않을시 Ctrl + C로 종료하세요.)" \
+                 && read -p "계속하려면 아무키나 누르세요. 원치 않을시 Ctrl + C로 종료하세요. " \
                  && sudo systemctl stop mevboost \
                  && echo \“MEV Boost stop\" \
                  && echo \“validator stop\" \
@@ -47,7 +47,7 @@ alias all.stop='echo \"All Stop!!! \" \
 alias all.restart='echo \"All restart!!! \" \
                  && echo \"geth, beacon, validator, mevboost를 재실행합니다. \" \
                  && echo \"메인넷입니다. 다른컴퓨와 validator가 중복실행되지 않는지 반드시 확인하세요.  만일 geth와 beacon만 재실행하시려면 node.restart를 실행하세요.\" \
-                 && read -p "계속하려면 아무키나 누르세요.(원치 않을시 Ctrl + C로 종료하세요.)" \
+                 && read -p "계속하려면 아무키나 누르세요. 원치 않을시 Ctrl + C로 종료하세요." \
                  && echo \"mevboost, validator, beacon, geth를 순차적으로 종료합니다. \" \
                  && sudo systemctl stop mevboost \
                  && echo \“MEV Boost stop\" \
@@ -65,7 +65,7 @@ alias all.restart='echo \"All restart!!! \" \
                  && sudo systemctl start beacon \
                  && echo \"geth node와 beacon node를 재실행했습니다. \" \
                  && echo \"메인넷입니다. 다른컴퓨터와 validator가 중복실행되지 않는지 한번 더 확인하세요.\" \
-                 && read -p "계속하려면 아무키나 누르세요.(원치 않을시 Ctrl + C로 종료하세요.)" \
+                 && read -p "계속하려면 아무키나 누르세요. 원치 않을시 Ctrl + C로 종료하세요. " \
                  && echo \"validator start\" \
                  && sudo systemctl start validator \
                  && echo \"MEV Boost start\" \
@@ -73,7 +73,7 @@ alias all.restart='echo \"All restart!!! \" \
                  && echo \"All Restart Done.\"'
 alias node.start='echo \"Node start!!! \" \
                  && echo \"geth와 beacon 노드를 순차적으로 실행합니다. geth,beacon,validator,MEV\" \
-                 && read -p "계속하려면 아무키나 누르세요.(원치 않을시 Ctrl + C로 종료하세요.)" \
+                 && read -p "계속하려면 아무키나 누르세요. 원치 않을시 Ctrl + C로 종료하세요. " \
                  && sudo systemctl start geth \
                  && echo \"Geth start\" \
                  && echo \"Beacon start\" \
@@ -81,7 +81,7 @@ alias node.start='echo \"Node start!!! \" \
                  && echo \"Done.\"'
 alias node.stop='echo \"Node Stop!!! \" \
                  && echo \"beacon과 geth를 순차적으로 종료합니다. \" \
-                 && read -p "계속하려면 아무키나 누르세요.(원치 않을시 Ctrl + C로 종료하세요.)" \
+                 && read -p "계속하려면 아무키나 누르세요. 원치 않을시 Ctrl + C로 종료하세요. " \
                  && sudo systemctl stop beacon \
                  && echo \"Beacon stop\" \
                  && echo \"Geth stop\" \
@@ -90,7 +90,7 @@ alias node.stop='echo \"Node Stop!!! \" \
 alias node.restart='echo \"Node restart!!! \" \
                  && echo \"geth, beacon을 재실행합니다. \" \
                  && echo \"메인넷인지 다른컴퓨와 validator가 중복실행되지 않는지 반드시 확인하세요. geth,beacon,validator,MEV를 모두 재실행하시려면 all.node를 실행하세요.\" \
-                 && read -p "계속하려면 아무키나 누르세요.(원치 않을시 Ctrl + C로 종료하세요.)" \
+                 && read -p "계속하려면 아무키나 누르세요. 원치 않을시 Ctrl + C로 종료하세요." \
                  && echo \"beacon과 geth를 순차적으로 종료합니다. \" \
                  && sudo systemctl stop beacon \
                  && echo \"Beacon stop\" \
@@ -127,7 +127,7 @@ alias n.reload='sudo systemctl daemon-reload'
 alias n.update='sudo apt update -y && sudo apt upgrade -y && sudo apt dist-upgrade -y && sudo apt autoremove -y'
 alias n.disable='echo \"Auto start Disable!!! \" \
                  && echo \"geth, beacon, validator 및 mevboost의 자동실행을 해지합니다.\" \
-                 && read -p "계속하려면 아무키나 누르세요.(원치 않을시 Ctrl + C로 종료하세요.)" \
+                 && read -p "계속하려면 아무키나 누르세요. 원치 않을시 Ctrl + C로 종료하세요. " \
                  && sudo systemctl disable geth \
                  && sudo systemctl disable beacon \
                  && sudo systemctl disable validator \
@@ -135,7 +135,7 @@ alias n.disable='echo \"Auto start Disable!!! \" \
                  && echo \”Done.\"'
 alias n.enable='echo \"Auto start enable!!! \" \
                  && echo \"부팅시 geth, beacon, validator 및 mevboost를 자동실행합니다.\" \
-                 && read -p "계속하려면 아무키나 누르세요.(원치 않을시 Ctrl + C로 종료하세요.)" \
+                 && read -p "계속하려면 아무키나 누르세요. 원치 않을시 Ctrl + C로 종료하세요. " \
                  && sudo systemctl enable geth \
                  && sudo systemctl enable beacon \
                  && sudo systemctl enable validator \
@@ -223,4 +223,3 @@ alias ssh.log="sudo journalctl -f -u ssh"
 alias ssh.status="sudo systemctl status ssh"
 alias ssh.cinstall="sudo apt-get install openssh-client"
 alias ssh.sinstall="sudo apt install openssh-server"
-
