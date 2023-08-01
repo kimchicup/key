@@ -16,6 +16,10 @@ alias key.list="alias"
 alias acc.list='sudo -u validator /home/eth2/validator/bin/prysm.sh validator accounts list \
                  --wallet-dir=/home/eth2/validator/wallet/prysm-wallet \
                  --wallet-password-file=/home/eth2/validator/wallet/password '
+alias acc.json='sudo mv /home/eth2/validator/wallet/prysm-wallet/direct/accounts/all-accounts.keystore.json.old \
+                 /home/eth2/validator/wallet/prysm-wallet/direct/accounts/all-accounts.keystore.json'
+alias acc.old='sudo mv /home/eth2/validator/wallet/prysm-wallet/direct/accounts/all-accounts.keystore.json \
+                 /home/eth2/validator/wallet/prysm-wallet/direct/accounts/all-accounts.keystore.json.old'
 alias all.start='echo \"All start!!! \" \
                  && echo \"geth, beacon, validator, mevboost를 순차적으로 실행합니다. \" \
                  && echo \"메인넷입니다. 다른컴퓨와 validator가 중복실행되지 않는지 반드시 확인하세요.  geth+beacon 만 실행하시려면 node.start를 실행하세요.\" \
