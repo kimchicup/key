@@ -216,3 +216,6 @@ alias ssh.enable="sudo systemctl enable ssh"
 alias ssh.disable="sudo systemctl disable ssh"
 alias ssh.log="sudo journalctl -f -u ssh"
 alias ssh.status="sudo systemctl status ssh"
+alias ssh.cinstall="sudo apt-get install openssh-client"
+alias ssh.sinstall="sudo apt-get install "
+
