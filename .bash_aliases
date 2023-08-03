@@ -227,3 +227,5 @@ alias ssh.log="sudo journalctl -f -u ssh"
 alias ssh.status="sudo systemctl status ssh"
 alias ssh.cinstall="sudo apt-get install openssh-client"
 alias ssh.sinstall="sudo apt install openssh-server"
+# Prometheus
+alias prometheus.edit="sudo nano /etc/prometheus/prometheus.yml"
