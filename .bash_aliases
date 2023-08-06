@@ -216,7 +216,9 @@ alias p.ver="curl -s -X GET \"http://127.0.0.1:3500/eth/v1alpha1/node/version\" 
 # SSH setting 2023.8
 # ssh-keygen -t rsa
 # ssh-copy-id -i ~/.ssh/id_rsa.pub username@192.168.219.10x
-# ssh username@192.168.219.10x
+# ssh username@192.168.219.10x -p 22
+alias ssh.cinstall="sudo apt-get install openssh-client"
+alias ssh.sinstall="sudo apt install openssh-server"
 alias ssh.edit="sudo nano /etc/ssh/sshd_config"
 alias ssh.start="sudo systemctl start ssh"
 alias ssh.stop="sudo systemctl stop ssh"
@@ -225,7 +227,5 @@ alias ssh.enable="sudo systemctl enable ssh"
 alias ssh.disable="sudo systemctl disable ssh"
 alias ssh.log="sudo journalctl -f -u ssh"
 alias ssh.status="sudo systemctl status ssh"
-alias ssh.cinstall="sudo apt-get install openssh-client"
-alias ssh.sinstall="sudo apt install openssh-server"
 # Prometheus
 alias prometheus.edit="sudo nano /etc/prometheus/prometheus.yml"
