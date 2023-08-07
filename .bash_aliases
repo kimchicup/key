@@ -229,3 +229,8 @@ alias ssh.log="sudo journalctl -f -u ssh"
 alias ssh.status="sudo systemctl status ssh"
 # Prometheus
 alias prometheus.edit="sudo nano /etc/prometheus/prometheus.yml"
+#WOL on ubuntu
+#sudo apt-get update
+#sudo apt-get install ethtool
+#sudo ethtool –s eth0 wol g
+#sudo reboot
