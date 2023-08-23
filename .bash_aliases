@@ -154,6 +154,7 @@ alias n.speed='cd ~ \
                && rm deleteme.dat'
 alias n.itemp="cat /sys/class/thermal/thermal_zone*/temp"
 alias n.size='sudo du -hs /home/eth2/eth1 && sudo du -hs /home/eth2/beacon && sudo du -hs /home/eth2/validator && df -h --total | grep total'
+alias n.check='g.sync && sleep 1s && b.sync && sleep 1s && g.peer && sleep 1s && echo \“Beacon Peers\" && b.peer && sleep 1s && b.health && sleep 1s && v.health'
 alias g.start='sudo systemctl start geth'
 alias g.restart='sudo systemctl restart geth'
 alias g.stop='sudo systemctl stop geth'
