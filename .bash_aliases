@@ -4,6 +4,7 @@
 # read -p "표시하고싶은말"
 # 최초 단축키 설치시 아래의 curl 명령어로 다운로드 후 source 명령어로 탄축키를 로드시킴
 # curl -O https://raw.githubusercontent.com/kimchicup/key/main/.bash_aliases
+# https://raw.githubusercontent.com/theniz/staking-bash-aliases/main/.bash_aliases
 # source ~/.bash_aliases
 alias key.down='curl -O https://raw.githubusercontent.com/kimchicup/key/main/.bash_aliases'
 alias key.reload='source ~/.bash_aliases'
