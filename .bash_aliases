@@ -166,7 +166,8 @@ alias g.sync="curl -s -X POST 127.0.0.1:8545 -H \"Content-Type: application/json
 alias g.enable="sudo systemctl enable geth"
 alias g.disable="sudo systemctl disable geth"
 alias g.ver="geth version"
-alias g.error="journalctl -u geth | grep -e warning -e error | tail -30"
+alias g.error="journalctl -u geth | grep -e warning -e level=error | tail -30"
+alias g.error1="journalctl -u geth | grep -e warning -e error | tail -30"
 alias g.prune='echo \"Geth prune!!! \" \
                  && echo \"Geth를 프루닝하여 용량을 줄입니다.. \" \
                  && read -p "계속하려면 아무키나 누르세요." \
@@ -189,7 +190,8 @@ alias b.disable="sudo systemctl disable beacon"
 alias b.chealth="curl -X GET \"https://beaconcha.in/api/healthz\" -H \"accept: text/plain\" -w \"\n\""
 alias b.connect="curl -s http://localhost:3500/eth/v1alpha1/node/eth1/connections | jq"
 alias b.tpeer="curl -s http://localhost:8080/metrics | grep \"p2p_topic_peer_count\""
-alias b.error="journalctl -u beacon | grep -e warning -e error | tail -30"
+alias b.error="journalctl -u beacon | grep -e warning -e level=error | tail -30"
+alias b.error1="journalctl -u beacon | grep -e warning -e error | tail -30"
 alias b.ver="curl -s -X GET \"http://127.0.0.1:3500/eth/v1alpha1/node/version\" -H \"accept: application/json\" | jq [.version]"
 alias v.start='sudo systemctl start validator'
 alias v.stop='sudo systemctl stop validator'
@@ -201,12 +203,14 @@ alias v.health='curl http://localhost:8081/healthz'
 alias v.idist="sudo journalctl -u validator | grep -a -i averageInclusionDistance | tail -30"
 alias v.enable="sudo systemctl enable validator"
 alias v.disable="sudo systemctl disable validator"
-alias v.error="journalctl -u validator | grep -e warning -e error | tail -30"
+alias v.error="journalctl -u validator | grep -e warning -e level=error | tail -30"
+alias v.error1="journalctl -u validator | grep -e warning -e error | tail -30"
 alias v.vote='journalctl --since -60min -u validator | grep "Previous epoch aggregated voting summary"'
 alias m.disable='sudo systemctl disable mevboost'
 alias m.edit='sudo nano /etc/systemd/system/mevboost.service'
 alias m.enable='sudo systemctl enable mevboost'
-alias m.error='journalctl -u mevboost | grep -e warning -e error | tail -30'
+alias m.error='journalctl -u mevboost | grep -e warning -e level=error | tail -30'
+alias m.error1='journalctl -u mevboost | grep -e warning -e error | tail -30'
 alias m.init='sudo systemctl start mevboost && sudo journalctl -f -u mevboost.service'
 alias m.log='sudo journalctl -f -u mevboost.service'
 alias m.start='sudo systemctl start mevboost'
