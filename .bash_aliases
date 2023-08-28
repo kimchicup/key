@@ -177,6 +177,7 @@ alias g.prune='echo \"Geth prune!!! \" \
                  && sudo -u geth geth --datadir=/home/eth2/eth1 snapshot prune-state \
                  && echo \"Done.\"'
 alias b.start='sudo systemctl start beacon'
+alias b.restart='sudo systemctl restart beacon'
 alias b.stop='sudo systemctl stop beacon'
 alias b.log='sudo journalctl -f -u beacon.service'
 alias b.init='sudo systemctl start beacon && sudo journalctl -f -u beacon.service'
@@ -196,6 +197,7 @@ alias b.error="journalctl -u beacon | grep -e warning -e level=error | tail -30"
 alias b.error1="journalctl -u beacon | grep -e warning -e error | tail -30"
 alias b.ver="curl -s -X GET \"http://127.0.0.1:3500/eth/v1alpha1/node/version\" -H \"accept: application/json\" | jq [.version]"
 alias v.start='sudo systemctl start validator'
+alias v.restart='sudo systemctl restart validator'
 alias v.stop='sudo systemctl stop validator'
 alias v.log='sudo journalctl -f -u validator.service'
 alias v.init='sudo systemctl start validator && sudo journalctl -f -u validator.service'
@@ -208,6 +210,9 @@ alias v.disable="sudo systemctl disable validator"
 alias v.error="journalctl -u validator | grep -e warning -e level=error | tail -30"
 alias v.error1="journalctl -u validator | grep -e warning -e error | tail -30"
 alias v.vote='journalctl --since -60min -u validator | grep "Previous epoch aggregated voting summary"'
+alias m.start='sudo systemctl start mevboost'
+alias m.restart='sudo systemctl restart mevboost'
+alias m.stop='sudo systemctl stop mevboost'
 alias m.disable='sudo systemctl disable mevboost'
 alias m.edit='sudo nano /etc/systemd/system/mevboost.service'
 alias m.enable='sudo systemctl enable mevboost'
@@ -215,9 +220,7 @@ alias m.error='journalctl -u mevboost | grep -e warning -e level=error | tail -3
 alias m.error1='journalctl -u mevboost | grep -e warning -e error | tail -30'
 alias m.init='sudo systemctl start mevboost && sudo journalctl -f -u mevboost.service'
 alias m.log='sudo journalctl -f -u mevboost.service'
-alias m.start='sudo systemctl start mevboost'
 alias m.status='sudo systemctl status mevboost'
-alias m.stop='sudo systemctl stop mevboost'
 alias m.ver='sudo /home/eth2/mevboost/bin/mev-boost -version'
 alias p.ver="curl -s -X GET \"http://127.0.0.1:3500/eth/v1alpha1/node/version\" -H \"accept: application/json\" | jq [.version]"
 # SSH setting 2023.8
