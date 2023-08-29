@@ -237,8 +237,60 @@ alias ssh.enable="sudo systemctl enable ssh"
 alias ssh.disable="sudo systemctl disable ssh"
 alias ssh.log="sudo journalctl -f -u ssh"
 alias ssh.status="sudo systemctl status ssh"
-# Prometheus
+# grafana
 alias prometheus.edit="sudo nano /etc/prometheus/prometheus.yml"
+alias grafana.enable='sudo systemctl enable node_exporter \
+                      && sleep 1s \
+                      && sudo systemctl enable blackbox_exporter \
+                      && sleep 1s \
+                      && sudo systemctl enable ethereum-address-exporter \
+                      && sleep 1s \
+                      && sudo systemctl enable ethereum-metrics-exporter \
+                      && sleep 1s \
+                      && sudo systemctl enable json_exporter \
+                      && sleep 1s \
+                      && sudo systemctl enable prometheus \
+                      && sleep 1s \
+                      && sudo systemctl enable grafana-server'
+alias grafana.disable='sudo systemctl disable node_exporter \
+                      && sleep 1s \
+                      && sudo systemctl disable blackbox_exporter \
+                      && sleep 1s \
+                      && sudo systemctl disable ethereum-address-exporter \
+                      && sleep 1s \
+                      && sudo systemctl disable ethereum-metrics-exporter \
+                      && sleep 1s \
+                      && sudo systemctl disable json_exporter \
+                      && sleep 1s \
+                      && sudo systemctl disable prometheus \
+                      && sleep 1s \
+                      && sudo systemctl disable grafana-server'
+alias grafana.start='sudo systemctl start node_exporter \
+                      && sleep 1s \
+                      && sudo systemctl start blackbox_exporter \
+                      && sleep 1s \
+                      && sudo systemctl start ethereum-address-exporter \
+                      && sleep 1s \
+                      && sudo systemctl start ethereum-metrics-exporter \
+                      && sleep 1s \
+                      && sudo systemctl start json_exporter \
+                      && sleep 1s \
+                      && sudo systemctl start prometheus \
+                      && sleep 1s \
+                      && sudo systemctl start grafana-server'
+alias grafana.stop='sudo systemctl stop node_exporter \
+                      && sleep 1s \
+                      && sudo systemctl stop blackbox_exporter \
+                      && sleep 1s \
+                      && sudo systemctl stop ethereum-address-exporter \
+                      && sleep 1s \
+                      && sudo systemctl stop ethereum-metrics-exporter \
+                      && sleep 1s \
+                      && sudo systemctl stop json_exporter \
+                      && sleep 1s \
+                      && sudo systemctl stop prometheus \
+                      && sleep 1s \
+                      && sudo systemctl stop grafana-server'
 #WOL on ubuntu
 #sudo apt-get update
 #sudo apt-get install ethtool
