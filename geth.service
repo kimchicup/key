@@ -1,4 +1,3 @@
-  GNU nano 6.2                                                                                                           /etc/systemd/system/geth.service                                                                                                                    
 [Unit]
 Description=Geth-Main
 After=network-online.target
@@ -6,15 +5,18 @@ After=network-online.target
 [Service]
 Type=simple
 User=geth
-ExecStart=geth --http \
-               --datadir=/home/eth2/eth1 \
-               --metrics --pprof --cache=8192 \
+ExecStart=geth --http --datadir=/home/eth2/eth1 \
+               --metrics --pprof \
+#               --cache=4096 \
+               --state.scheme=hash \
                --authrpc.jwtsecret=/home/eth2/shared/jwt.hex \
+               --http.api=net,web3,eth,txpool \
+#               --rpc.batch-response-max-size=50000000 \
                --authrpc.vhosts=localhost
 
 Restart=always
 RestartSec=5
+TimeoutSec=900
 
 [Install]
 WantedBy=multi-user.target
-
