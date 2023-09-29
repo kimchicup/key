@@ -1,11 +1,8 @@
-# ShortCut Key for Local Maintenance, geth & prysm ver. 23/05/08
-# # 은 메모기능으로 사용 
-# echo -  echo \”화면에표시\"
-# read -p "표시하고싶은말"
+# ShortCut Key for Local Maintenance, geth & prysm ver. 23/9/29
+# # 은 메모기능으로 사용    # echo -  echo \”화면에표시\"   # read -p "표시하고싶은말"
 # 최초 단축키 설치시 jq install, curl 명령어로 다운로드 & source 명령어로 탄축키를 로드시킴
 # sudo apt install jq -y
 # curl -O https://raw.githubusercontent.com/kimchicup/key/main/.bash_aliases
-# https://raw.githubusercontent.com/theniz/staking-bash-aliases/main/.bash_aliases
 # source ~/.bash_aliases
 alias key.down='curl -O https://raw.githubusercontent.com/kimchicup/key/main/.bash_aliases'
 alias key.reload='source ~/.bash_aliases'
