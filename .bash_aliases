@@ -1,9 +1,11 @@
 # ShortCut Key for Local Maintenance, geth & prysm ver. 23/9/29
 # # 은 메모기능으로 사용    # echo -  echo \”화면에표시\"   # read -p "표시하고싶은말"
-# 최초 단축키 설치시 jq install, curl 명령어로 다운로드 & source 명령어로 탄축키를 로드시킴
+# 최초 단축키 설치시 jq, curl install, curl 명령어로 aliases file 다운로드 & source 명령어로 탄축키를 로드시킴.
 # sudo apt install jq -y
+# sudo apt install curl
 # curl -O https://raw.githubusercontent.com/kimchicup/key/main/.bash_aliases
 # source ~/.bash_aliases
+
 alias key.down='curl -O https://raw.githubusercontent.com/kimchicup/key/main/.bash_aliases'
 alias key.reload='source ~/.bash_aliases'
 alias key.edit='sudo nano ~/.bash_aliases'
@@ -168,12 +170,6 @@ alias g.disable="sudo systemctl disable geth"
 alias g.ver="geth version"
 alias g.error="journalctl -u geth | grep -e warning -e level=error | tail -30"
 alias g.error1="journalctl -u geth | grep -e warning -e error | tail -30"
-alias g.prune='echo \"Geth prune!!! \" \
-                 && echo \"Geth를 프루닝하여 용량을 줄입니다.. \" \
-                 && read -p "계속하려면 아무키나 누르세요." \
-                 && sudo systemctl stop geth \
-                 && sudo -u geth geth --datadir=/home/eth2/eth1 snapshot prune-state \
-                 && echo \"Done.\"'
 alias b.start='sudo systemctl start beacon'
 alias b.restart='sudo systemctl restart beacon'
 alias b.stop='sudo systemctl stop beacon'
@@ -194,6 +190,7 @@ alias b.tpeer="curl -s http://localhost:8080/metrics | grep \"p2p_topic_peer_cou
 alias b.error="journalctl -u beacon | grep -e warning -e level=error | tail -30"
 alias b.error1="journalctl -u beacon | grep -e warning -e error | tail -30"
 alias b.ver="curl -s -X GET \"http://127.0.0.1:3500/eth/v1alpha1/node/version\" -H \"accept: application/json\" | jq [.version]"
+alias p.ver="curl -s -X GET \"http://127.0.0.1:3500/eth/v1alpha1/node/version\" -H \"accept: application/json\" | jq [.version]"
 alias v.start='sudo systemctl start validator'
 alias v.restart='sudo systemctl restart validator'
 alias v.stop='sudo systemctl stop validator'
@@ -220,11 +217,12 @@ alias m.init='sudo systemctl start mevboost && sudo journalctl -f -u mevboost.se
 alias m.log='sudo journalctl -f -u mevboost.service'
 alias m.status='sudo systemctl status mevboost'
 alias m.ver='sudo /home/eth2/mevboost/bin/mev-boost -version'
-alias p.ver="curl -s -X GET \"http://127.0.0.1:3500/eth/v1alpha1/node/version\" -H \"accept: application/json\" | jq [.version]"
-# SSH setting 2023.8
-# ssh-keygen -t rsa
-# ssh-copy-id -i ~/.ssh/id_rsa.pub username@192.168.219.10x
-# ssh username@192.168.219.10x -p 22
+# SSH setting(원격접속)
+# ssh-keygen -t rsa   =키를 만든다.(이때 설정하는 비번은 키로 접속시 쓰이는 비번이니 주의)
+# ssh-copy-id -i ~/.ssh/id_rsa.pub username@192.168.219.10x =키를 username@10x 로 보낸다. (이때 물어보는 비번은 컴퓨터 로그인비번)
+# ssh username@192.168.219.10x -p 22 (username, 10x의 22번 포트로 접속하는 방법)
+# ssh.edit를 통해 포트변경, 비번접속을 없애기, 키접속만 가능하게하게 하기.)
+# Port 22 -> xxxx,   PubkeyAuthentication yes, PasswordAuthentication no, KbdInteractiveAuthentication no
 alias ssh.cinstall="sudo apt-get install openssh-client"
 alias ssh.sinstall="sudo apt install openssh-server"
 alias ssh.edit="sudo nano /etc/ssh/sshd_config"
@@ -235,7 +233,7 @@ alias ssh.enable="sudo systemctl enable ssh"
 alias ssh.disable="sudo systemctl disable ssh"
 alias ssh.log="sudo journalctl -f -u ssh"
 alias ssh.status="sudo systemctl status ssh"
-# grafana
+# grafana(브라우저모니터링)
 alias prometheus.edit="sudo nano /etc/prometheus/prometheus.yml"
 alias grafana.enable='sudo systemctl enable node_exporter \
                       && sleep 1s \
@@ -289,7 +287,7 @@ alias grafana.stop='sudo systemctl stop node_exporter \
                       && sudo systemctl stop prometheus \
                       && sleep 1s \
                       && sudo systemctl stop grafana-server'
-#WOL on ubuntu
+#WOL on ubuntu(원격시동)
 #sudo apt-get update
 #sudo apt-get install ethtool
 #sudo ethtool –s eth0 wol g
