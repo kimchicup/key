@@ -233,6 +233,8 @@ alias ssh.enable="sudo systemctl enable ssh"
 alias ssh.disable="sudo systemctl disable ssh"
 alias ssh.log="sudo journalctl -f -u ssh"
 alias ssh.status="sudo systemctl status ssh"
+alias ssh.mainnet='ssh prysm@192.168.219.101 -p 32501"
+alias ssh.backup='ssh prysm@192.168.219.108 -p 32506"
 # grafana(브라우저모니터링)
 alias prometheus.edit="sudo nano /etc/prometheus/prometheus.yml"
 alias grafana.enable='sudo systemctl enable node_exporter \
