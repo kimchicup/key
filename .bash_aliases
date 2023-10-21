@@ -294,7 +294,7 @@ alias grafana.stop='sudo systemctl stop node_exporter \
 #curl -OL https://github.com/prysmaticlabs/prysm/releases/download/v4.0.3/prysmctl-v4.0.3-linux-amd64
 #mv prysmctl-v4.0.3-linux-amd64 prysmctl
 #sudo chmod +x prysmctl
-#sudo ./prysmctl validator exit --wallet-dir=/home/eth2/validator/wallet/prysm-wallet --wallet-password-file=/home/eth2/validator/wallet/password --prater ----accept-terms-of-use ----public-keys=xxxxxxxxx,yyyyyyyyy
+#sudo ./prysmctl validator exit --wallet-dir=/home/eth2/validator/wallet/prysm-wallet --wallet-password-file=/home/eth2/validator/wallet/password --accept-terms-of-use --public-keys=xxxxxxxxx,yyyyyyyyy
 #WOL on ubuntu(원격시동)
 #sudo apt-get update
 #sudo apt-get install ethtool
