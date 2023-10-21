@@ -5,7 +5,6 @@
 # sudo apt install curl
 # curl -O https://raw.githubusercontent.com/kimchicup/key/main/.bash_aliases
 # source ~/.bash_aliases
-
 alias key.down='curl -O https://raw.githubusercontent.com/kimchicup/key/main/.bash_aliases'
 alias key.reload='source ~/.bash_aliases'
 alias key.edit='sudo nano ~/.bash_aliases'
