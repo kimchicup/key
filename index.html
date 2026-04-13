@@ -1,0 +1,1560 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <meta name="apple-mobile-web-app-title" content="Quick Note" />
+  <title>Quick Note</title>
+  <style>
+    :root {
+      --bg: #f5f7fb;
+      --card: #ffffff;
+      --text: #111827;
+      --muted: #6b7280;
+      --line: #e5e7eb;
+      --primary: #2563eb;
+      --primary-soft: #dbeafe;
+      --danger: #dc2626;
+      --warning: #b45309;
+      --shadow: 0 10px 30px rgba(17, 24, 39, 0.08);
+      --radius: 18px;
+      --safe-top: env(safe-area-inset-top, 0px);
+      --safe-bottom: env(safe-area-inset-bottom, 0px);
+    }
+
+    * { box-sizing: border-box; }
+    html, body {
+      margin: 0;
+      padding: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Apple SD Gothic Neo", "Noto Sans KR", sans-serif;
+      height: 100%;
+    }
+
+    body { display: flex; justify-content: center; }
+
+    .app {
+      width: 100%;
+      max-width: 1180px;
+      min-height: 100vh;
+      padding: calc(18px + var(--safe-top)) 16px calc(18px + var(--safe-bottom));
+    }
+
+    .topbar {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 14px;
+    }
+
+    .brand { display: flex; flex-direction: column; gap: 4px; }
+    .brand h1 {
+      font-size: 1.45rem;
+      line-height: 1.1;
+      margin: 0;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+    }
+    .brand p { margin: 0; color: var(--muted); font-size: 0.92rem; }
+
+    .card {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+    }
+
+    .search-wrap {
+      position: sticky;
+      top: calc(8px + var(--safe-top));
+      z-index: 20;
+      padding: 12px;
+      margin-bottom: 14px;
+      backdrop-filter: blur(10px);
+    }
+
+    .search-row {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 10px;
+      align-items: center;
+    }
+
+    input[type="search"], input[type="text"], textarea, select {
+      width: 100%;
+      border: 1px solid var(--line);
+      background: #fff;
+      border-radius: 14px;
+      padding: 14px;
+      font-size: 1rem;
+      outline: none;
+      transition: border-color .2s ease, box-shadow .2s ease;
+    }
+
+    input:focus, textarea:focus, select:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.12);
+    }
+
+    textarea { min-height: 240px; resize: vertical; line-height: 1.6; }
+
+    .btn, button {
+      border: none;
+      background: var(--primary);
+      color: #fff;
+      padding: 12px 14px;
+      border-radius: 14px;
+      font-size: 0.98rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: transform .05s ease, opacity .2s ease;
+    }
+
+    .btn:active, button:active { transform: scale(0.98); }
+    .btn.secondary { background: #fff; color: var(--text); border: 1px solid var(--line); }
+    .btn.soft { background: var(--primary-soft); color: var(--primary); }
+    .btn.danger { background: #fee2e2; color: var(--danger); }
+    .btn.warning { background: #fef3c7; color: var(--warning); }
+
+    .quick-actions {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 10px;
+      margin-bottom: 14px;
+    }
+
+    .segment {
+      display: grid;
+      grid-template-columns: repeat(6, minmax(0, 1fr));
+      gap: 8px;
+      margin-bottom: 14px;
+    }
+
+    .segment button,
+    .filter-bar button {
+      background: #fff;
+      color: var(--muted);
+      border: 1px solid var(--line);
+      padding: 12px 8px;
+      font-size: 0.92rem;
+      font-weight: 700;
+    }
+
+    .segment button.active,
+    .filter-bar button.active {
+      background: var(--text);
+      color: #fff;
+      border-color: var(--text);
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 10px;
+      margin-bottom: 14px;
+    }
+
+    .stat { padding: 14px; text-align: center; }
+    .stat .label { color: var(--muted); font-size: 0.82rem; margin-bottom: 6px; }
+    .stat .value { font-size: 1.2rem; font-weight: 800; }
+
+    .panel { padding: 12px; margin-bottom: 14px; }
+    .panel-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 12px;
+      flex-wrap: wrap;
+    }
+    .panel-head h2 { margin: 0; font-size: 1.05rem; }
+    .muted { color: var(--muted); font-size: 0.9rem; }
+
+    .filter-bar {
+      display: inline-grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 8px;
+      min-width: 300px;
+    }
+
+    .note-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .note-item {
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: 14px;
+      cursor: pointer;
+      background: #fff;
+      transition: border-color .2s ease, transform .05s ease, box-shadow .2s ease;
+      min-height: 200px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .note-item:hover { border-color: #c7d2fe; box-shadow: 0 8px 18px rgba(37, 99, 235, 0.08); }
+    .note-item.active { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12); }
+    .note-top {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      align-items: flex-start;
+      margin-bottom: 8px;
+    }
+
+    .note-title { font-weight: 800; font-size: 1rem; line-height: 1.35; }
+    .badge-row { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 8px; }
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 6px 9px;
+      border-radius: 999px;
+      background: #f3f4f6;
+      color: #374151;
+      font-size: 0.78rem;
+      font-weight: 700;
+    }
+
+    .badge.category-symptom { background: #dbeafe; color: #1d4ed8; }
+    .badge.category-diagnosis { background: #ede9fe; color: #6d28d9; }
+    .badge.category-drug { background: #dcfce7; color: #15803d; }
+    .badge.category-procedure { background: #fee2e2; color: #b91c1c; }
+    .badge.category-other { background: #f3f4f6; color: #374151; }
+    .badge.algorithm { background: #eef2ff; color: #4338ca; }
+
+    .note-preview {
+      color: #374151;
+      font-size: 0.92rem;
+      line-height: 1.5;
+      display: -webkit-box;
+      -webkit-line-clamp: 4;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      margin-bottom: 8px;
+      white-space: pre-wrap;
+    }
+
+    .note-meta {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      color: var(--muted);
+      font-size: 0.8rem;
+      margin-top: auto;
+    }
+
+    .empty {
+      padding: 24px 16px;
+      text-align: center;
+      color: var(--muted);
+      border: 1px dashed var(--line);
+      border-radius: 16px;
+      background: #fafafa;
+      grid-column: 1 / -1;
+    }
+
+    .status {
+      margin-top: 14px;
+      padding: 10px 12px;
+      border-radius: 12px;
+      font-size: 0.9rem;
+      border: 1px solid var(--line);
+      background: #fff;
+      color: var(--muted);
+      min-height: 42px;
+      display: flex;
+      align-items: center;
+    }
+
+    .status.ok { color: #166534; background: #f0fdf4; border-color: #bbf7d0; }
+    .status.warn { color: #92400e; background: #fffbeb; border-color: #fde68a; }
+    .status.err { color: #991b1b; background: #fef2f2; border-color: #fecaca; }
+
+    .detail-view {
+      position: fixed;
+      inset: 0;
+      z-index: 1000;
+      background: var(--bg);
+      padding: calc(18px + var(--safe-top)) 16px calc(18px + var(--safe-bottom));
+      overflow: auto;
+    }
+    .detail-view.hidden { display: none !important; }
+    .detail-shell { max-width: 960px; margin: 0 auto; display: grid; gap: 14px; }
+    .detail-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    .detail-actions { display: flex; gap: 10px; flex-wrap: wrap; }
+    .detail-card { padding: 18px; }
+    .detail-title {
+      margin: 0 0 10px 0;
+      font-size: 1.5rem;
+      line-height: 1.3;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+    }
+    .detail-content { white-space: pre-wrap; line-height: 1.7; font-size: 1rem; color: #1f2937; }
+    .detail-meta {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      color: var(--muted);
+      font-size: 0.88rem;
+      margin-top: 12px;
+    }
+
+    .algorithm-panel {
+      margin-top: 16px;
+      padding-top: 16px;
+      border-top: 1px solid var(--line);
+    }
+
+    .algorithm-panel h3 {
+      margin: 0 0 10px 0;
+      font-size: 1rem;
+    }
+
+    .algorithm-links {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .algorithm-link {
+      text-align: left;
+      background: #fff;
+      color: var(--text);
+      border: 1px solid var(--line);
+      padding: 12px 14px;
+      border-radius: 14px;
+    }
+
+    .detail-editor {
+      display: grid;
+      gap: 10px;
+      margin-top: 14px;
+      padding-top: 14px;
+      border-top: 1px solid var(--line);
+    }
+
+    .row-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    .detail-editor.hidden { display: none !important; }
+    .editor-actions { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; }
+    .star { border: none; background: transparent; color: #f59e0b; font-size: 1.2rem; padding: 0; cursor: pointer; }
+
+    @media (max-width: 900px) {
+      .note-grid, .algorithm-links { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 760px) {
+      .quick-actions, .stats, .segment, .editor-actions, .filter-bar { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .row-2, .search-row { grid-template-columns: 1fr; }
+      .filter-bar { min-width: 100%; }
+    }
+  </style>
+</head>
+<body>
+  <main class="app">
+    <div class="topbar">
+      <div class="brand">
+        <h1>Quick Note</h1>
+        <p>응급의학과 실전 Quick Reference · 증상 · 진단 · 약물 · 처치</p>
+      </div>
+      <button class="btn soft" id="installHintBtn">홈화면 추가</button>
+    </div>
+
+    <section class="card search-wrap">
+      <div class="search-row">
+        <input id="searchInput" type="search" placeholder="예: Chest Pain, ACLS, Hyperkalemia, Hyponatremia 검색" />
+        <button id="clearSearchBtn" class="btn secondary">초기화</button>
+      </div>
+    </section>
+
+    <section class="quick-actions">
+      <button class="btn" id="newBtn">새 노트</button>
+      <button class="btn soft" id="starterKitBtn">실전 샘플</button>
+      <button class="btn secondary" id="duplicateBtn">복제</button>
+      <button class="btn secondary" id="exportBtn">백업</button>
+      <label class="btn secondary" style="text-align:center; display:flex; align-items:center; justify-content:center;">
+        복원
+        <input id="importInput" type="file" accept="application/json" hidden />
+      </label>
+    </section>
+
+    <section class="segment" id="segment"></section>
+
+    <section class="stats">
+      <div class="card stat"><div class="label">전체</div><div class="value" id="countAll">0</div></div>
+      <div class="card stat"><div class="label">즐겨찾기</div><div class="value" id="countFav">0</div></div>
+      <div class="card stat"><div class="label">현재 결과</div><div class="value" id="countFiltered">0</div></div>
+      <div class="card stat"><div class="label">마지막 수정</div><div class="value" id="lastUpdated">-</div></div>
+    </section>
+
+    <section class="card panel">
+      <div class="panel-head">
+        <div>
+          <h2>전체 노트</h2>
+          <div class="muted" id="listDescription">카테고리를 눌러 빠르게 이동하세요.</div>
+        </div>
+        <div class="filter-bar" id="filterBar">
+          <button data-view-mode="all" class="active">전체보기</button>
+          <button data-view-mode="favorites">별표만</button>
+          <button data-view-mode="latest">최신순</button>
+        </div>
+      </div>
+      <div class="note-grid" id="noteList"></div>
+      <div id="statusBox" class="status">준비되었습니다.</div>
+    </section>
+  </main>
+
+  <section id="detailView" class="detail-view hidden" aria-hidden="true">
+    <div class="detail-shell">
+      <div class="detail-head">
+        <button class="btn secondary" id="detailBackBtn">뒤로가기</button>
+        <div class="detail-actions">
+          <button class="btn soft" id="detailEditBtn">편집</button>
+          <button class="btn secondary" id="detailCopyBtn">복사</button>
+          <button class="btn danger" id="detailDeleteBtn">삭제</button>
+        </div>
+      </div>
+
+      <article class="card detail-card">
+        <div class="badge-row" id="detailBadges"></div>
+        <h2 class="detail-title" id="detailTitle">제목</h2>
+        <div class="detail-content" id="detailContent"></div>
+        <div class="detail-meta">
+          <span id="detailUpdated">수정일</span>
+          <span id="detailLength">길이</span>
+        </div>
+
+        <section class="algorithm-panel" id="algorithmPanel">
+          <h3>다음 단계 / 관련 알고리즘</h3>
+          <div class="algorithm-links" id="algorithmLinks"></div>
+        </section>
+
+        <section id="detailEditor" class="detail-editor hidden">
+          <input id="detailTitleInput" type="text" placeholder="제목 예: Chest Pain(흉통)" />
+          <div class="row-2">
+            <select id="detailCategoryInput"></select>
+            <input id="detailTagsInput" type="text" placeholder="태그 예: chest pain, ACS, shock" />
+          </div>
+          <textarea id="detailContentInput" placeholder="내용을 입력하세요.
+예:
+- 즉시 배제할 것
+- red flag
+- 초기 order
+- disposition"></textarea>
+          <div class="editor-actions">
+            <button class="btn" id="detailSaveBtn">저장</button>
+            <button class="btn secondary" id="detailCancelEditBtn">편집 취소</button>
+            <button class="btn secondary" id="detailFavoriteBtn">즐겨찾기</button>
+            <button class="btn secondary" id="detailShareBtn">공유</button>
+          </div>
+        </section>
+      </article>
+    </div>
+  </section>
+
+  <script>
+    'use strict';
+
+    const STORAGE_KEY = 'quick_note_bokeom_v4';
+    const NEWLINE = '\n';
+
+    const categories = [
+      { key: 'all', label: '전체' },
+      { key: 'symptom', label: '증상' },
+      { key: 'diagnosis', label: '진단' },
+      { key: 'drug', label: '약물' },
+      { key: 'procedure', label: '처치' },
+      { key: 'other', label: '기타' }
+    ];
+
+    const categoryLabels = {
+      symptom: '증상',
+      diagnosis: '진단',
+      drug: '약물',
+      procedure: '처치',
+      other: '기타'
+    };
+
+    function generateId() {
+      if (window.crypto && typeof window.crypto.randomUUID === 'function') return window.crypto.randomUUID();
+      return 'id-' + Date.now() + '-' + Math.random().toString(36).slice(2, 11);
+    }
+
+    function makeNote(offset, title, category, tags, content, favorite = false, links = []) {
+      const now = Date.now();
+      return {
+        id: generateId(),
+        title,
+        category,
+        tags,
+        content,
+        favorite,
+        links,
+        createdAt: now - offset,
+        updatedAt: now - offset
+      };
+    }
+
+    function link(title, targetTitle) {
+      return { title, targetTitle };
+    }
+
+    function buildEmergencyStarterNotes() {
+      return [
+        makeNote(2000000, 'Chest Pain(흉통)', 'symptom', ['ACS', 'PE', 'Aortic dissection', 'Algorithm'], `핵심 접근
+- unstable 여부 먼저 판단
+- ECG / monitor / IV / vital reassessment
+- 즉시 배제할 치명적 원인 우선
+
+놓치면 안 되는 질환
+- ACS
+- Aortic dissection
+- PE
+- Tension pneumothorax
+- Esophageal rupture
+
+클릭해서 알고리즘 분기로 들어가세요.`, true, [
+          link('Chest Pain Algorithm(흉통 알고리즘)', 'Chest Pain Algorithm(흉통 알고리즘)'),
+          link('ACS / MI(급성관상동맥증후군)', 'ACS / MI(급성관상동맥증후군)'),
+          link('Aortic Dissection(대동맥박리)', 'Aortic Dissection(대동맥박리)'),
+          link('Pulmonary Embolism(폐색전증)', 'Pulmonary Embolism(폐색전증)')
+        ]),
+        makeNote(1980000, 'Chest Pain Algorithm(흉통 알고리즘)', 'other', ['algorithm', 'chest pain'], `1) 불안정한가?
+- 저혈압, shock, refractory pain, severe hypoxemia, altered mental status
+→ 즉시 resuscitation / airway / cardiology-or-CT surgery pathway 고려
+
+2) ECG에서 STEMI 또는 ischemic change?
+→ ACS 경로
+
+3) 찢어지는 통증, pulse deficit, 신경학적 이상, mediastinal concern?
+→ Aortic dissection 경로
+
+4) hypoxemia, pleuritic pain, DVT risk, unexplained tachycardia?
+→ PE 경로
+
+5) unilateral absent breath sound / sudden dyspnea?
+→ Pneumothorax 경로`, false, [
+          link('ACS / MI(급성관상동맥증후군)', 'ACS / MI(급성관상동맥증후군)'),
+          link('Aortic Dissection(대동맥박리)', 'Aortic Dissection(대동맥박리)'),
+          link('Pulmonary Embolism(폐색전증)', 'Pulmonary Embolism(폐색전증)'),
+          link('Dyspnea(호흡곤란)', 'Dyspnea(호흡곤란)')
+        ]),
+        makeNote(1960000, 'ACS / MI(급성관상동맥증후군)', 'diagnosis', ['ACS', 'STEMI', 'troponin'], `핵심
+- ECG serial change 확인
+- Troponin 추적
+- hemodynamic instability / malignant arrhythmia 확인
+
+처치 포인트
+- aspirin 적합성 검토
+- reperfusion pathway activation 여부
+- cardiology consultation
+
+pitfall
+- 초기 ECG 1회 정상으로 배제하지 않기`),
+        makeNote(1940000, 'Aortic Dissection(대동맥박리)', 'diagnosis', ['dissection', 'CTA'], `의심 단서
+- sudden tearing pain
+- pulse or BP differential
+- neuro deficit
+- unexplained shock
+
+처치 포인트
+- analgesia
+- HR/BP control path
+- definitive imaging and surgical consult
+
+pitfall
+- ACS처럼 보여도 dissection 가능성 항상 재평가`),
+        makeNote(1920000, 'Pulmonary Embolism(폐색전증)', 'diagnosis', ['PE', 'RV strain'], `의심 단서
+- pleuritic pain / dyspnea / syncope / unexplained tachycardia
+- DVT risk / cancer / recent immobilization
+
+평가
+- pretest probability
+- D-dimer if appropriate
+- CT pulmonary angiography or alternative imaging
+
+불안정 환자
+- obstructive shock 가능성 평가
+- bedside echo / escalation pathway`),
+
+        makeNote(1900000, 'Dyspnea(호흡곤란)', 'symptom', ['airway', 'CHF', 'PE', 'algorithm'], `첫 질문
+- airway 문제인가?
+- oxygenation 문제인가?
+- ventilation 문제인가?
+- circulation / pump failure인가?
+
+클릭해서 감별 알고리즘으로 들어가세요.`, true, [
+          link('Dyspnea Algorithm(호흡곤란 알고리즘)', 'Dyspnea Algorithm(호흡곤란 알고리즘)'),
+          link('Asthma / COPD Exacerbation(천식·COPD 악화)', 'Asthma / COPD Exacerbation(천식·COPD 악화)'),
+          link('Acute Heart Failure / Pulmonary Edema(급성심부전·폐부종)', 'Acute Heart Failure / Pulmonary Edema(급성심부전·폐부종)'),
+          link('Pulmonary Embolism(폐색전증)', 'Pulmonary Embolism(폐색전증)')
+        ]),
+        makeNote(1880000, 'Dyspnea Algorithm(호흡곤란 알고리즘)', 'other', ['algorithm', 'dyspnea'], `1) upper airway obstruction / stridor?
+→ airway intervention path
+
+2) wheeze / prolonged expiration / known obstructive disease?
+→ Asthma-COPD path
+
+3) diffuse crackles / edema / hypertension / orthopnea?
+→ Acute heart failure path
+
+4) pleuritic pain / unilateral symptoms / sudden onset?
+→ PE or pneumothorax path
+
+5) altered mental status or fatigue with rising CO2 concern?
+→ ventilatory failure path`, false, [
+          link('Asthma / COPD Exacerbation(천식·COPD 악화)', 'Asthma / COPD Exacerbation(천식·COPD 악화)'),
+          link('Acute Heart Failure / Pulmonary Edema(급성심부전·폐부종)', 'Acute Heart Failure / Pulmonary Edema(급성심부전·폐부종)'),
+          link('Pulmonary Embolism(폐색전증)', 'Pulmonary Embolism(폐색전증)'),
+          link('RSI Checklist(RSI 체크리스트)', 'RSI Checklist(RSI 체크리스트)')
+        ]),
+        makeNote(1860000, 'Asthma / COPD Exacerbation(천식·COPD 악화)', 'diagnosis', ['bronchodilator', 'steroid'], `핵심
+- severe work of breathing / silent chest / fatigue 확인
+
+처치 포인트
+- bronchodilator sequence
+- steroid early consideration
+- NIV / intubation threshold 재평가
+
+pitfall
+- 처음 좋아보여도 exhaustion 전환 가능`),
+        makeNote(1840000, 'Acute Heart Failure / Pulmonary Edema(급성심부전·폐부종)', 'diagnosis', ['NIV', 'pulmonary edema'], `핵심
+- oxygenation support
+- NIV suitability
+- BP profile 기반 접근
+
+추가
+- POCUS / CXR / ECG / renal function
+
+pitfall
+- wheeze가 있어도 cardiac asthma 가능성 유지`),
+
+        makeNote(1820000, 'Abdominal Pain(복통)', 'symptom', ['abdomen', 'algorithm', 'AAA'], `핵심
+- unstable 여부
+- peritoneal sign 여부
+- pregnancy possibility
+- vascular catastrophe 배제
+
+클릭해서 감별 알고리즘으로 들어가세요.`, true, [
+          link('Abdominal Pain Algorithm(복통 알고리즘)', 'Abdominal Pain Algorithm(복통 알고리즘)'),
+          link('AAA / Rupture Concern(복부대동맥류·파열 의심)', 'AAA / Rupture Concern(복부대동맥류·파열 의심)'),
+          link('Ectopic Pregnancy(자궁외임신)', 'Ectopic Pregnancy(자궁외임신)'),
+          link('Biliary / Pancreatic Path(담도·췌장 경로)', 'Biliary / Pancreatic Path(담도·췌장 경로)')
+        ]),
+        makeNote(1800000, 'Abdominal Pain Algorithm(복통 알고리즘)', 'other', ['algorithm', 'abd pain'], `1) unstable / shock / GI bleed / rigid abdomen?
+→ resuscitation + emergent surgery/vascular path
+
+2) reproductive age with pregnancy possibility?
+→ ectopic path
+
+3) pulsatile mass or back pain or syncope?
+→ AAA path
+
+4) RUQ pain / jaundice / fever?
+→ biliary path
+
+5) diffuse pain out of proportion?
+→ mesenteric ischemia consideration`, false, [
+          link('AAA / Rupture Concern(복부대동맥류·파열 의심)', 'AAA / Rupture Concern(복부대동맥류·파열 의심)'),
+          link('Ectopic Pregnancy(자궁외임신)', 'Ectopic Pregnancy(자궁외임신)'),
+          link('Biliary / Pancreatic Path(담도·췌장 경로)', 'Biliary / Pancreatic Path(담도·췌장 경로)')
+        ]),
+        makeNote(1780000, 'AAA / Rupture Concern(복부대동맥류·파열 의심)', 'diagnosis', ['AAA', 'shock'], `의심 단서
+- 고령, vascular risk, syncope, back/abdominal pain, hypotension
+
+우선순위
+- resuscitation
+- bedside ultrasound if feasible
+- vascular surgery pathway
+
+pitfall
+- transiently stable해 보여도 급격히 악화 가능`),
+        makeNote(1760000, 'Ectopic Pregnancy(자궁외임신)', 'diagnosis', ['pregnancy', 'shock'], `의심 단서
+- pregnancy positive + pain/bleeding
+- shoulder pain / syncope / shock
+
+우선순위
+- hemodynamic support
+- urgent OB-GYN pathway
+- ultrasound and pregnancy correlation`),
+        makeNote(1740000, 'Biliary / Pancreatic Path(담도·췌장 경로)', 'diagnosis', ['cholangitis', 'pancreatitis'], `RUQ pain, fever, jaundice면 cholangitis 고려
+Epigastric pain to back + vomiting이면 pancreatitis 고려
+
+중증도
+- sepsis/shock
+- organ dysfunction
+- need for urgent decompression/source control`),
+
+        makeNote(1720000, 'Headache(두통)', 'symptom', ['SAH', 'meningitis', 'algorithm'], `핵심
+- thunderclap?
+- focal deficit?
+- fever / neck stiffness?
+- immunocompromised?
+
+클릭해서 알고리즘으로 들어가세요.`, true, [
+          link('Headache Algorithm(두통 알고리즘)', 'Headache Algorithm(두통 알고리즘)'),
+          link('Subarachnoid Hemorrhage Concern(SAH 의심)', 'Subarachnoid Hemorrhage Concern(SAH 의심)'),
+          link('Meningitis / Encephalitis Concern(수막염·뇌염 의심)', 'Meningitis / Encephalitis Concern(수막염·뇌염 의심)')
+        ]),
+        makeNote(1700000, 'Headache Algorithm(두통 알고리즘)', 'other', ['algorithm', 'headache'], `1) thunderclap onset?
+→ SAH path
+
+2) fever / neck stiffness / AMS?
+→ meningitis-encephalitis path
+
+3) focal neuro deficit / seizure / papilledema?
+→ secondary intracranial cause path
+
+4) immunocompromised / anticoagulant / cancer?
+→ low threshold for imaging and escalation`, false, [
+          link('Subarachnoid Hemorrhage Concern(SAH 의심)', 'Subarachnoid Hemorrhage Concern(SAH 의심)'),
+          link('Meningitis / Encephalitis Concern(수막염·뇌염 의심)', 'Meningitis / Encephalitis Concern(수막염·뇌염 의심)')
+        ]),
+        makeNote(1680000, 'Subarachnoid Hemorrhage Concern(SAH 의심)', 'diagnosis', ['thunderclap', 'SAH'], `핵심
+- sudden maximal onset
+- exertional or associated syncope possible
+
+평가
+- urgent imaging pathway
+- further testing depending on timing and suspicion
+
+pitfall
+- 통증 호전이 진단 배제를 의미하지 않음`),
+        makeNote(1660000, 'Meningitis / Encephalitis Concern(수막염·뇌염 의심)', 'diagnosis', ['meningitis', 'encephalitis'], `핵심
+- fever, headache, neck stiffness, altered mental status, seizure
+
+처치 포인트
+- early antimicrobial / antiviral path when indicated
+- imaging / LP sequencing 판단
+
+pitfall
+- 고령·면역저하는 classic triad가 약할 수 있음`),
+
+        makeNote(1640000, 'Hyperkalemia(고칼륨혈증)', 'diagnosis', ['K', 'ECG', 'calcium'], `핵심
+- ECG 변화와 근육약화, brady/arrhythmia 확인
+
+치료 프레임
+1) membrane stabilization
+2) intracellular shift
+3) removal of potassium
+4) 반복 ECG / lab 재평가
+
+투석 고려
+- refractory hyperkalemia
+- severe renal failure / ongoing release / life-threatening arrhythmia`, true, [
+          link('Hyperkalemia Algorithm(고칼륨혈증 알고리즘)', 'Hyperkalemia Algorithm(고칼륨혈증 알고리즘)'),
+          link('Bradycardia Algorithm(서맥 알고리즘)', 'Bradycardia Algorithm(서맥 알고리즘)')
+        ]),
+        makeNote(1620000, 'Hyperkalemia Algorithm(고칼륨혈증 알고리즘)', 'other', ['algorithm', 'hyperkalemia'], `1) ECG 변화 또는 불안정?
+→ 즉시 membrane stabilization
+
+2) shift therapy 적응?
+→ insulin-glucose / beta-agonist / selected bicarbonate consideration
+
+3) 제거 단계 필요한가?
+→ renal excretion pathway / binder / dialysis pathway
+
+4) 원인 재평가
+- renal failure, acidosis, tissue breakdown, medication`, false, [
+          link('Hyperkalemia(고칼륨혈증)', 'Hyperkalemia(고칼륨혈증)'),
+          link('Bradycardia Algorithm(서맥 알고리즘)', 'Bradycardia Algorithm(서맥 알고리즘)')
+        ]),
+        makeNote(1600000, 'Hypokalemia(저칼륨혈증)', 'diagnosis', ['K', 'arrhythmia'], `평가
+- weakness, ileus, arrhythmia risk
+- magnesium 동반 저하 확인
+
+치료 프레임
+- severity stratification
+- ECG / telemetry
+- oral vs IV replacement
+- magnesium correction 병행 여부
+
+pitfall
+- 지속되는 손실 원인을 동시에 찾지 않으면 재저하`),
+        makeNote(1580000, 'Hypoglycemia(저혈당)', 'diagnosis', ['glucose', 'dextrose'], `핵심
+- altered mental status에서 항상 즉시 혈당 확인
+
+처치 프레임
+- conscious and can swallow? oral carbohydrate
+- unable to take orally? IV dextrose / alternative pathway
+- rebound or long-acting agent 여부 관찰
+
+원인 탐색
+- insulin, oral agent, sepsis, liver disease, adrenal issue`, true, [
+          link('Hypoglycemia Algorithm(저혈당 알고리즘)', 'Hypoglycemia Algorithm(저혈당 알고리즘)'),
+          link('BLS Algorithm(기본소생술 알고리즘)', 'BLS Algorithm(기본소생술 알고리즘)')
+        ]),
+        makeNote(1560000, 'Hypoglycemia Algorithm(저혈당 알고리즘)', 'other', ['algorithm', 'hypoglycemia'], `1) glucose low 확인
+
+2) awake + swallow 가능?
+→ oral correction
+
+3) unable to protect airway / ongoing seizure / coma?
+→ IV dextrose path + airway assessment
+
+4) sulfonylurea or long-acting insulin concern?
+→ recurrent hypoglycemia monitoring`, false, [
+          link('Hypoglycemia(저혈당)', 'Hypoglycemia(저혈당)'),
+          link('RSI Checklist(RSI 체크리스트)', 'RSI Checklist(RSI 체크리스트)')
+        ]),
+        makeNote(1540000, 'Hypernatremia(고나트륨혈증)', 'diagnosis', ['Na', 'free water'], `핵심
+- chronicity, volume status, neurologic symptom
+
+치료 프레임
+- free water deficit estimate
+- too-rapid correction 회피
+- underlying cause: water loss, diabetes insipidus, osmotic loss
+
+pitfall
+- shock resuscitation과 이후 slow correction을 구분`),
+        makeNote(1520000, 'Hyponatremia(저나트륨혈증)', 'diagnosis', ['Na', 'seizure'], `핵심
+- 증상 유무와 중증도 우선
+- acute symptomatic hyponatremia는 emergency
+
+치료 프레임
+- severe symptom이면 hypertonic saline pathway
+- volume status and cause classification
+- overcorrection 방지
+
+pitfall
+- 원인 교정 없이 수치만 올리면 재발·과교정 위험`, true, [
+          link('Hyponatremia Algorithm(저나트륨혈증 알고리즘)', 'Hyponatremia Algorithm(저나트륨혈증 알고리즘)')
+        ]),
+        makeNote(1500000, 'Hyponatremia Algorithm(저나트륨혈증 알고리즘)', 'other', ['algorithm', 'hyponatremia'], `1) severe symptom?
+- seizure, coma, severe confusion
+→ emergency treatment path
+
+2) acute vs chronic?
+→ correction speed planning
+
+3) hypovolemic / euvolemic / hypervolemic?
+→ cause-directed approach
+
+4) overcorrection monitoring 필요`, false, [
+          link('Hyponatremia(저나트륨혈증)', 'Hyponatremia(저나트륨혈증)')
+        ]),
+
+        makeNote(1480000, 'BLS Algorithm(기본소생술 알고리즘)', 'procedure', ['BLS', 'CPR', 'AED'], `성인 BLS 핵심
+- 반응 / 호흡 / 맥박을 빠르게 확인
+- no pulse면 CPR 시작
+- AED 즉시 연결
+- 고품질 흉부압박 유지
+
+요점
+- compression rate 100-120/min
+- 깊이 적절히, recoil 허용
+- 중단 최소화`, true, [
+          link('Adult Cardiac Arrest Algorithm(성인 심정지 알고리즘)', 'Adult Cardiac Arrest Algorithm(성인 심정지 알고리즘)')
+        ]),
+        makeNote(1460000, 'ACLS Overview(전문소생술 개요)', 'procedure', ['ACLS', 'algorithm'], `핵심
+- 심정지, tachycardia with pulse, bradycardia with pulse 알고리즘 분기
+- 팀 리더십, rhythm recognition, reversible causes 병행
+
+알고리즘으로 들어가세요.`, true, [
+          link('Adult Cardiac Arrest Algorithm(성인 심정지 알고리즘)', 'Adult Cardiac Arrest Algorithm(성인 심정지 알고리즘)'),
+          link('Tachycardia Algorithm(빈맥 알고리즘)', 'Tachycardia Algorithm(빈맥 알고리즘)'),
+          link('Bradycardia Algorithm(서맥 알고리즘)', 'Bradycardia Algorithm(서맥 알고리즘)')
+        ]),
+        makeNote(1440000, 'Adult Cardiac Arrest Algorithm(성인 심정지 알고리즘)', 'procedure', ['ACLS', 'VF', 'PEA', 'asystole'], `핵심
+- shockable vs nonshockable rhythm 분기
+- high-quality CPR 유지
+- epinephrine, defibrillation, antiarrhythmic, reversible causes 순환적으로 평가
+
+Hs and Ts 반복 재평가`, true, [
+          link('BLS Algorithm(기본소생술 알고리즘)', 'BLS Algorithm(기본소생술 알고리즘)'),
+          link('Hyperkalemia(고칼륨혈증)', 'Hyperkalemia(고칼륨혈증)')
+        ]),
+        makeNote(1420000, 'Tachycardia Algorithm(빈맥 알고리즘)', 'procedure', ['tachycardia', 'ACLS', 'cardioversion'], `핵심 분기
+1) unstable tachycardia?
+→ synchronized cardioversion path
+
+2) stable + regular narrow?
+→ vagal / adenosine consideration
+
+3) wide complex or uncertain rhythm?
+→ expert help / antiarrhythmic / cardioversion threshold 재평가
+
+항상 rhythm, QRS width, regularity, perfusion을 함께 본다.`, true, [
+          link('Cardioversion Prep(전기적 동율동전환 준비)', 'Cardioversion Prep(전기적 동율동전환 준비)'),
+          link('Adenosine(아데노신)', 'Adenosine(아데노신)')
+        ]),
+        makeNote(1400000, 'Bradycardia Algorithm(서맥 알고리즘)', 'procedure', ['bradycardia', 'ACLS', 'pacing'], `핵심 분기
+1) bradycardia가 실제로 저관류를 유발하는가?
+
+2) symptomatic bradycardia면
+- atropine consideration
+- ineffective하면 pacing 또는 infusion path
+
+3) reversible causes
+- ischemia, drugs, hypoxia, hyperkalemia 등 평가`, true, [
+          link('Hyperkalemia(고칼륨혈증)', 'Hyperkalemia(고칼륨혈증)'),
+          link('Adult Cardiac Arrest Algorithm(성인 심정지 알고리즘)', 'Adult Cardiac Arrest Algorithm(성인 심정지 알고리즘)')
+        ]),
+
+        makeNote(1380000, 'Adenosine(아데노신)', 'drug', ['SVT', 'narrow tachycardia'], `적응증
+- regular narrow complex tachycardia 진단/치료 고려
+
+포인트
+- ECG strip 확보
+- rapid push with flush
+
+주의
+- irregular wide tachycardia에는 주의
+- 천식 병력 재평가`),
+        makeNote(1360000, 'Ketamine(케타민)', 'drug', ['RSI', 'sedation'], `적응증
+- RSI induction
+- analgesia / sedation
+
+장점
+- 혈압 보존 경향
+- 기관지확장 기대
+
+주의
+- secretions, emergence, shock physiology 재평가`),
+        makeNote(1340000, 'Norepinephrine(노르에피네프린)', 'drug', ['pressor', 'shock'], `적응증
+- vasodilatory / septic shock
+
+핵심
+- MAP target 설정
+- peripheral start 가능 시 infiltration monitoring
+- frequent titration`),
+        makeNote(1320000, 'IM Epinephrine(근주 에피네프린)', 'drug', ['anaphylaxis'], `적응증
+- anaphylaxis 1차 치료
+
+핵심
+- 지체하지 않기
+- 반복 평가와 airway 관찰
+
+pitfall
+- antihistamine 먼저 주고 지연하지 않기`),
+        makeNote(1300000, 'RSI Checklist(RSI 체크리스트)', 'procedure', ['intubation', 'airway'], `사전 준비
+- plan A/B/C
+- preoxygenation
+- suction / bougie / backup airway
+
+삽관 후
+- waveform capnography
+- post-intubation sedation
+- hypotension reassessment`),
+        makeNote(1280000, 'Cardioversion Prep(전기적 동율동전환 준비)', 'procedure', ['cardioversion', 'tachycardia'], `핵심
+- unstable tachyarrhythmia identification
+- sync mode 확인
+- sedation 가능 여부
+- airway backup 준비`)
+      ];
+    }
+
+    const state = {
+      notes: loadNotes(),
+      selectedId: null,
+      category: 'all',
+      search: '',
+      viewMode: 'all',
+      detailEditing: false
+    };
+
+    if (!state.notes.length) {
+      state.notes = buildEmergencyStarterNotes();
+      persist();
+    }
+
+    const el = {
+      segment: document.getElementById('segment'),
+      noteList: document.getElementById('noteList'),
+      filterBar: document.getElementById('filterBar'),
+      searchInput: document.getElementById('searchInput'),
+      clearSearchBtn: document.getElementById('clearSearchBtn'),
+      newBtn: document.getElementById('newBtn'),
+      starterKitBtn: document.getElementById('starterKitBtn'),
+      duplicateBtn: document.getElementById('duplicateBtn'),
+      exportBtn: document.getElementById('exportBtn'),
+      importInput: document.getElementById('importInput'),
+      installHintBtn: document.getElementById('installHintBtn'),
+      countAll: document.getElementById('countAll'),
+      countFav: document.getElementById('countFav'),
+      countFiltered: document.getElementById('countFiltered'),
+      lastUpdated: document.getElementById('lastUpdated'),
+      listDescription: document.getElementById('listDescription'),
+      statusBox: document.getElementById('statusBox'),
+      detailView: document.getElementById('detailView'),
+      detailBackBtn: document.getElementById('detailBackBtn'),
+      detailEditBtn: document.getElementById('detailEditBtn'),
+      detailCopyBtn: document.getElementById('detailCopyBtn'),
+      detailDeleteBtn: document.getElementById('detailDeleteBtn'),
+      detailBadges: document.getElementById('detailBadges'),
+      detailTitle: document.getElementById('detailTitle'),
+      detailContent: document.getElementById('detailContent'),
+      detailUpdated: document.getElementById('detailUpdated'),
+      detailLength: document.getElementById('detailLength'),
+      algorithmPanel: document.getElementById('algorithmPanel'),
+      algorithmLinks: document.getElementById('algorithmLinks'),
+      detailEditor: document.getElementById('detailEditor'),
+      detailTitleInput: document.getElementById('detailTitleInput'),
+      detailCategoryInput: document.getElementById('detailCategoryInput'),
+      detailTagsInput: document.getElementById('detailTagsInput'),
+      detailContentInput: document.getElementById('detailContentInput'),
+      detailSaveBtn: document.getElementById('detailSaveBtn'),
+      detailCancelEditBtn: document.getElementById('detailCancelEditBtn'),
+      detailFavoriteBtn: document.getElementById('detailFavoriteBtn'),
+      detailShareBtn: document.getElementById('detailShareBtn')
+    };
+
+    init();
+
+    function init() {
+      renderCategoryOptions();
+      bindEvents();
+      runSelfTests();
+      render();
+    }
+
+    function setStatus(message, kind = '') {
+      el.statusBox.className = `status ${kind}`.trim();
+      el.statusBox.textContent = message;
+    }
+
+    function loadNotes() {
+      try {
+        const raw = localStorage.getItem(STORAGE_KEY);
+        if (!raw) return [];
+        const parsed = JSON.parse(raw);
+        return Array.isArray(parsed) ? parsed : [];
+      } catch {
+        return [];
+      }
+    }
+
+    function persist() {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(state.notes));
+    }
+
+    function renderCategoryOptions() {
+      const options = categories.filter((c) => c.key !== 'all').map((c) => `<option value="${escapeAttribute(c.key)}">${escapeHtml(c.label)}</option>`).join('');
+      el.detailCategoryInput.innerHTML = options;
+    }
+
+    function bindEvents() {
+      el.searchInput.addEventListener('input', (e) => {
+        state.search = e.target.value.trim().toLowerCase();
+        render();
+      });
+
+      el.clearSearchBtn.addEventListener('click', () => {
+        state.search = '';
+        el.searchInput.value = '';
+        render();
+        setStatus('검색어를 초기화했습니다.', 'ok');
+      });
+
+      el.newBtn.addEventListener('click', createBlankNote);
+      el.starterKitBtn.addEventListener('click', loadStarterKit);
+      el.duplicateBtn.addEventListener('click', duplicateSelected);
+      el.exportBtn.addEventListener('click', onExport);
+      el.importInput.addEventListener('change', onImport);
+      el.installHintBtn.addEventListener('click', showInstallHint);
+
+      el.filterBar.querySelectorAll('button').forEach((btn) => {
+        btn.addEventListener('click', () => {
+          state.viewMode = btn.dataset.viewMode;
+          renderFilterBar();
+          render();
+        });
+      });
+
+      el.detailBackBtn.addEventListener('click', closeDetailView);
+      el.detailEditBtn.addEventListener('click', toggleDetailEditMode);
+      el.detailCopyBtn.addEventListener('click', copySelectedFromDetail);
+      el.detailDeleteBtn.addEventListener('click', deleteSelectedFromDetail);
+      el.detailSaveBtn.addEventListener('click', saveDetailEdit);
+      el.detailCancelEditBtn.addEventListener('click', cancelDetailEdit);
+      el.detailFavoriteBtn.addEventListener('click', toggleFavoriteInDetail);
+      el.detailShareBtn.addEventListener('click', shareSelectedFromDetail);
+    }
+
+    function renderFilterBar() {
+      el.filterBar.querySelectorAll('button').forEach((btn) => {
+        btn.classList.toggle('active', btn.dataset.viewMode === state.viewMode);
+      });
+    }
+
+    function getFilteredNotes() {
+      const search = state.search;
+      let notes = [...state.notes].filter((note) => state.category === 'all' ? true : note.category === state.category);
+      if (state.viewMode === 'favorites') notes = notes.filter((note) => note.favorite);
+      notes = notes.filter((note) => {
+        if (!search) return true;
+        const bag = [note.title, note.content, (note.tags || []).join(' '), categoryLabels[note.category] || ''].join(' ').toLowerCase();
+        return bag.includes(search);
+      });
+      if (state.viewMode === 'latest') return notes.sort((a, b) => (b.updatedAt || 0) - (a.updatedAt || 0));
+      return notes.sort((a, b) => {
+        if (a.favorite !== b.favorite) return a.favorite ? -1 : 1;
+        return (b.updatedAt || 0) - (a.updatedAt || 0);
+      });
+    }
+
+    function render() {
+      renderSegments();
+      renderFilterBar();
+      const filtered = getFilteredNotes();
+      renderStats(filtered);
+      renderList(el.noteList, filtered, '조건에 맞는 노트가 없습니다.');
+      updateListDescription(filtered.length);
+      syncDetailFavoriteButton();
+    }
+
+    function renderSegments() {
+      el.segment.innerHTML = categories.map((cat) => `<button data-category="${escapeAttribute(cat.key)}" class="${state.category === cat.key ? 'active' : ''}">${escapeHtml(cat.label)}</button>`).join('');
+      el.segment.querySelectorAll('button').forEach((btn) => {
+        btn.addEventListener('click', () => {
+          state.category = btn.dataset.category;
+          render();
+        });
+      });
+    }
+
+    function renderStats(filtered) {
+      el.countAll.textContent = String(state.notes.length);
+      el.countFav.textContent = String(state.notes.filter((n) => n.favorite).length);
+      el.countFiltered.textContent = String(filtered.length);
+      const latest = [...state.notes].sort((a, b) => (b.updatedAt || 0) - (a.updatedAt || 0))[0];
+      el.lastUpdated.textContent = latest ? formatDate(latest.updatedAt) : '-';
+    }
+
+    function updateListDescription(count) {
+      const currentCategory = categories.find((c) => c.key === state.category)?.label || '전체';
+      const modeText = state.viewMode === 'favorites' ? ' · 별표만' : state.viewMode === 'latest' ? ' · 최신순' : ' · 전체보기';
+      const searchText = state.search ? ` · 검색어: ${state.search}` : '';
+      el.listDescription.textContent = `${currentCategory} · ${count}개${modeText}${searchText}`;
+    }
+
+    function renderList(target, notes, emptyText) {
+      if (!notes.length) {
+        target.innerHTML = `<div class="empty">${escapeHtml(emptyText)}</div>`;
+        return;
+      }
+
+      target.innerHTML = notes.map((note) => {
+        const safeTitle = escapeHtml(note.title || '(제목 없음)');
+        const safePreview = escapeHtml(note.content || '').replace(/\n/g, '<br />');
+        const tagsHtml = (note.tags || []).slice(0, 4).map((tag) => `<span class="badge">#${escapeHtml(tag)}</span>`).join('');
+        const algoBadge = (note.links && note.links.length) ? '<span class="badge algorithm">algorithm</span>' : '';
+        return `
+          <article class="note-item ${note.id === state.selectedId ? 'active' : ''}" data-id="${escapeAttribute(note.id)}">
+            <div class="note-top">
+              <div class="note-title">${safeTitle}</div>
+              <button class="star" data-star-id="${escapeAttribute(note.id)}" aria-label="즐겨찾기">${note.favorite ? '★' : '☆'}</button>
+            </div>
+            <div class="badge-row">
+              <span class="badge category-${escapeAttribute(note.category)}">${escapeHtml(categoryLabels[note.category] || '기타')}</span>
+              ${algoBadge}
+              ${tagsHtml}
+            </div>
+            <div class="note-preview">${safePreview}</div>
+            <div class="note-meta">
+              <span>${formatDate(note.updatedAt)}</span>
+              <span>${note.content ? note.content.length : 0}자</span>
+            </div>
+          </article>
+        `;
+      }).join('');
+
+      target.querySelectorAll('.note-item').forEach((item) => {
+        item.addEventListener('click', (e) => {
+          if (e.target.closest('.star')) return;
+          selectNote(item.dataset.id);
+        });
+      });
+
+      target.querySelectorAll('.star').forEach((btn) => {
+        btn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          const note = state.notes.find((n) => n.id === btn.dataset.starId);
+          if (!note) return;
+          note.favorite = !note.favorite;
+          note.updatedAt = Date.now();
+          persist();
+          render();
+          if (state.selectedId === note.id && !el.detailView.classList.contains('hidden')) openDetailView(note, state.detailEditing);
+          setStatus(note.favorite ? '즐겨찾기에 추가했습니다.' : '즐겨찾기를 해제했습니다.', 'ok');
+        });
+      });
+    }
+
+    function selectNote(id) {
+      const note = state.notes.find((n) => n.id === id);
+      if (!note) return;
+      state.selectedId = id;
+      state.detailEditing = false;
+      render();
+      openDetailView(note, false);
+    }
+
+    function openDetailView(note, editMode = false) {
+      state.detailEditing = editMode;
+      const tagsHtml = (note.tags || []).map((tag) => `<span class="badge">#${escapeHtml(tag)}</span>`).join('');
+      const algoBadge = (note.links && note.links.length) ? '<span class="badge algorithm">algorithm</span>' : '';
+      el.detailBadges.innerHTML = `<span class="badge category-${escapeAttribute(note.category)}">${escapeHtml(categoryLabels[note.category] || '기타')}</span>${algoBadge}${tagsHtml}`;
+      el.detailTitle.textContent = note.title || '(제목 없음)';
+      el.detailContent.textContent = note.content || '';
+      el.detailUpdated.textContent = `수정일: ${formatDate(note.updatedAt)}`;
+      el.detailLength.textContent = `길이: ${note.content ? note.content.length : 0}자`;
+      renderAlgorithmLinks(note);
+      fillDetailEditor(note);
+      updateDetailEditUI();
+      el.detailView.classList.remove('hidden');
+      el.detailView.setAttribute('aria-hidden', 'false');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function renderAlgorithmLinks(note) {
+      const links = Array.isArray(note.links) ? note.links : [];
+      if (!links.length) {
+        el.algorithmPanel.style.display = 'none';
+        el.algorithmLinks.innerHTML = '';
+        return;
+      }
+      el.algorithmPanel.style.display = 'block';
+      el.algorithmLinks.innerHTML = links.map((item) => `<button class="algorithm-link" data-target-title="${escapeAttribute(item.targetTitle)}">${escapeHtml(item.title)}</button>`).join('');
+      el.algorithmLinks.querySelectorAll('.algorithm-link').forEach((btn) => {
+        btn.addEventListener('click', () => {
+          const target = state.notes.find((n) => n.title === btn.dataset.targetTitle);
+          if (!target) {
+            setStatus('연결된 노트를 찾지 못했습니다.', 'warn');
+            return;
+          }
+          state.selectedId = target.id;
+          openDetailView(target, false);
+          render();
+        });
+      });
+    }
+
+    function closeDetailView() {
+      state.detailEditing = false;
+      el.detailView.classList.add('hidden');
+      el.detailView.setAttribute('aria-hidden', 'true');
+      document.body.style.overflow = '';
+    }
+
+    function fillDetailEditor(note) {
+      el.detailTitleInput.value = note.title || '';
+      el.detailCategoryInput.value = note.category || 'other';
+      el.detailTagsInput.value = (note.tags || []).join(', ');
+      el.detailContentInput.value = note.content || '';
+    }
+
+    function updateDetailEditUI() {
+      const editing = state.detailEditing;
+      el.detailEditor.classList.toggle('hidden', !editing);
+      el.detailTitle.hidden = editing;
+      el.detailContent.hidden = editing;
+      el.detailEditBtn.textContent = editing ? '읽기 보기' : '편집';
+    }
+
+    function toggleDetailEditMode() {
+      const note = state.notes.find((n) => n.id === state.selectedId);
+      if (!note) return;
+      state.detailEditing = !state.detailEditing;
+      if (state.detailEditing) fillDetailEditor(note);
+      updateDetailEditUI();
+      setStatus(state.detailEditing ? '상세 화면에서 바로 편집할 수 있습니다.' : '읽기 보기로 전환했습니다.', 'ok');
+    }
+
+    function cancelDetailEdit() {
+      const note = state.notes.find((n) => n.id === state.selectedId);
+      if (!note) return;
+      state.detailEditing = false;
+      fillDetailEditor(note);
+      updateDetailEditUI();
+      setStatus('편집을 취소했습니다.', 'ok');
+    }
+
+    function saveDetailEdit() {
+      const note = state.notes.find((n) => n.id === state.selectedId);
+      if (!note) return;
+      const title = el.detailTitleInput.value.trim();
+      const category = el.detailCategoryInput.value;
+      const tags = el.detailTagsInput.value.split(',').map((v) => v.trim()).filter(Boolean);
+      const content = el.detailContentInput.value.trim();
+      if (!title) {
+        alert('제목을 입력해 주세요.');
+        el.detailTitleInput.focus();
+        return;
+      }
+      if (!content) {
+        alert('내용을 입력해 주세요.');
+        el.detailContentInput.focus();
+        return;
+      }
+      note.title = title;
+      note.category = category;
+      note.tags = tags;
+      note.content = content;
+      note.updatedAt = Date.now();
+      persist();
+      state.detailEditing = false;
+      render();
+      openDetailView(note, false);
+      setStatus('상세 화면에서 바로 저장했습니다.', 'ok');
+    }
+
+    function createBlankNote() {
+      const now = Date.now();
+      const newNote = {
+        id: generateId(),
+        title: 'New Note(새 노트)',
+        category: 'other',
+        tags: [],
+        content: '',
+        favorite: false,
+        links: [],
+        createdAt: now,
+        updatedAt: now
+      };
+      state.notes.unshift(newNote);
+      state.selectedId = newNote.id;
+      persist();
+      render();
+      openDetailView(newNote, true);
+      setStatus('새 노트를 만들고 바로 편집 모드로 열었습니다.', 'ok');
+    }
+
+    function loadStarterKit() {
+      const ok = confirm('현재 노트를 응급의학과 실전 샘플 세트로 교체하시겠습니까? 기존 내용은 덮어써집니다.');
+      if (!ok) return;
+      closeDetailView();
+      state.notes = buildEmergencyStarterNotes();
+      state.selectedId = null;
+      persist();
+      render();
+      setStatus('응급의학과 실전 샘플을 불러왔습니다.', 'ok');
+    }
+
+    function duplicateSelected() {
+      const source = state.notes.find((n) => n.id === state.selectedId);
+      if (!source) {
+        alert('복제할 노트를 먼저 선택해 주세요.');
+        return;
+      }
+      const now = Date.now();
+      const copy = { ...source, id: generateId(), title: `${source.title} (복사본)`, createdAt: now, updatedAt: now };
+      state.notes.unshift(copy);
+      state.selectedId = copy.id;
+      persist();
+      render();
+      openDetailView(copy, true);
+      setStatus('노트를 복제하고 편집 모드로 열었습니다.', 'ok');
+    }
+
+    function deleteSelectedFromDetail() {
+      const note = state.notes.find((n) => n.id === state.selectedId);
+      if (!note) return;
+      const ok = confirm('이 노트를 삭제하시겠습니까?');
+      if (!ok) return;
+      state.notes = state.notes.filter((n) => n.id !== note.id);
+      state.selectedId = null;
+      persist();
+      closeDetailView();
+      render();
+      setStatus('노트를 삭제했습니다.', 'ok');
+    }
+
+    function syncDetailFavoriteButton() {
+      const note = state.notes.find((n) => n.id === state.selectedId);
+      el.detailFavoriteBtn.textContent = note && note.favorite ? '즐겨찾기 해제' : '즐겨찾기';
+    }
+
+    function toggleFavoriteInDetail() {
+      const note = state.notes.find((n) => n.id === state.selectedId);
+      if (!note) return;
+      note.favorite = !note.favorite;
+      note.updatedAt = Date.now();
+      persist();
+      render();
+      openDetailView(note, state.detailEditing);
+      setStatus(note.favorite ? '즐겨찾기에 추가했습니다.' : '즐겨찾기를 해제했습니다.', 'ok');
+    }
+
+    function getSelectedText(note) {
+      return [
+        `제목: ${note.title || ''}`,
+        `분류: ${categoryLabels[note.category] || '기타'}`,
+        (note.tags && note.tags.length) ? `태그: ${note.tags.join(', ')}` : '',
+        '',
+        note.content || ''
+      ].filter(Boolean).join(NEWLINE);
+    }
+
+    async function copyText(text) {
+      if (!text) return false;
+      if (navigator.clipboard && window.isSecureContext) {
+        try {
+          await navigator.clipboard.writeText(text);
+          return true;
+        } catch {
+          // fallback below
+        }
+      }
+      const textarea = document.createElement('textarea');
+      textarea.value = text;
+      textarea.setAttribute('readonly', '');
+      textarea.style.position = 'fixed';
+      textarea.style.top = '-9999px';
+      textarea.style.left = '-9999px';
+      textarea.style.opacity = '0';
+      document.body.appendChild(textarea);
+      textarea.focus();
+      textarea.select();
+      textarea.setSelectionRange(0, textarea.value.length);
+      let copied = false;
+      try { copied = document.execCommand('copy'); } catch { copied = false; }
+      document.body.removeChild(textarea);
+      return copied;
+    }
+
+    async function copySelectedFromDetail() {
+      const note = state.notes.find((n) => n.id === state.selectedId);
+      if (!note) return;
+      const copied = await copyText(getSelectedText(note));
+      setStatus(copied ? '상세 화면 내용을 복사했습니다.' : '상세 화면 자동 복사에 실패했습니다.', copied ? 'ok' : 'warn');
+    }
+
+    async function shareSelectedFromDetail() {
+      const note = state.notes.find((n) => n.id === state.selectedId);
+      if (!note) return;
+      const text = getSelectedText(note);
+      if (navigator.share) {
+        try {
+          await navigator.share({ title: note.title || 'Quick Note', text });
+          setStatus('공유 시트를 열었습니다.', 'ok');
+          return;
+        } catch {
+          // fallback below
+        }
+      }
+      const copied = await copyText(text);
+      setStatus(copied ? '공유 대신 복사했습니다.' : '공유와 복사가 모두 제한되었습니다.', copied ? 'ok' : 'warn');
+    }
+
+    function onExport() {
+      const blob = new Blob([JSON.stringify(state.notes, null, 2)], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `quick-note-backup-${new Date().toISOString().slice(0, 10)}.json`;
+      a.click();
+      URL.revokeObjectURL(url);
+      setStatus('백업 파일을 내보냈습니다.', 'ok');
+    }
+
+    function onImport(e) {
+      const file = e.target.files && e.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = () => {
+        try {
+          const parsed = JSON.parse(String(reader.result));
+          if (!Array.isArray(parsed)) throw new Error('Invalid payload');
+          state.notes = parsed.map((item) => ({
+            id: item.id || generateId(),
+            title: item.title || '',
+            category: ['symptom', 'diagnosis', 'drug', 'procedure', 'other'].includes(item.category) ? item.category : 'other',
+            tags: Array.isArray(item.tags) ? item.tags : [],
+            content: item.content || '',
+            favorite: Boolean(item.favorite),
+            links: Array.isArray(item.links) ? item.links : [],
+            createdAt: item.createdAt || Date.now(),
+            updatedAt: item.updatedAt || Date.now()
+          }));
+          state.selectedId = null;
+          persist();
+          closeDetailView();
+          render();
+          setStatus('복원이 완료되었습니다.', 'ok');
+        } catch {
+          alert('유효한 백업 파일이 아닙니다.');
+          setStatus('복원에 실패했습니다.', 'err');
+        } finally {
+          e.target.value = '';
+        }
+      };
+      reader.readAsText(file);
+    }
+
+    function showInstallHint() {
+      alert('iPhone Safari에서 이 페이지를 연 뒤, 공유 버튼을 누르고 “홈 화면에 추가”를 선택하세요.');
+    }
+
+    function formatDate(ts) {
+      if (!ts) return '-';
+      const d = new Date(ts);
+      const yy = String(d.getFullYear()).slice(2);
+      const mm = String(d.getMonth() + 1).padStart(2, '0');
+      const dd = String(d.getDate()).padStart(2, '0');
+      const hh = String(d.getHours()).padStart(2, '0');
+      const mi = String(d.getMinutes()).padStart(2, '0');
+      return `${yy}.${mm}.${dd} ${hh}:${mi}`;
+    }
+
+    function escapeHtml(value) {
+      return String(value)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+    }
+
+    function escapeAttribute(value) {
+      return escapeHtml(value).replace(/`/g, '&#096;');
+    }
+
+    function assert(name, condition) {
+      if (!condition) throw new Error(`Test failed: ${name}`);
+    }
+
+    function runSelfTests() {
+      try {
+        const starter = buildEmergencyStarterNotes();
+        assert('starter notes exist', starter.length >= 25);
+        assert('contains ACLS overview', starter.some((n) => n.title === 'ACLS Overview(전문소생술 개요)'));
+        assert('contains BLS algorithm', starter.some((n) => n.title === 'BLS Algorithm(기본소생술 알고리즘)'));
+        assert('contains tachycardia algorithm', starter.some((n) => n.title === 'Tachycardia Algorithm(빈맥 알고리즘)'));
+        assert('contains bradycardia algorithm', starter.some((n) => n.title === 'Bradycardia Algorithm(서맥 알고리즘)'));
+        assert('contains electrolyte set', starter.some((n) => n.title === 'Hyperkalemia(고칼륨혈증)') && starter.some((n) => n.title === 'Hyponatremia(저나트륨혈증)'));
+        assert('algorithm links exist', starter.some((n) => Array.isArray(n.links) && n.links.length > 0));
+        assert('symptom title bilingual', starter[0].title === 'Chest Pain(흉통)');
+        assert('dyspnea title correct', starter.some((n) => n.title === 'Dyspnea(호흡곤란)'));
+        assert('html escape works', escapeHtml('<b>x</b>') === '&lt;b&gt;x&lt;/b&gt;');
+        assert('attribute escape works', escapeAttribute('a"b') === 'a&quot;b');
+        assert('newline join stable', ['a', 'b'].join(NEWLINE) === 'a\nb');
+        state.viewMode = 'latest';
+        const latestNotes = getFilteredNotes();
+        assert('latest mode sorts desc', latestNotes[0].updatedAt >= latestNotes[latestNotes.length - 1].updatedAt);
+        state.viewMode = 'favorites';
+        const favoriteNotes = getFilteredNotes();
+        assert('favorites mode only favorites', favoriteNotes.every((n) => n.favorite));
+        state.viewMode = 'all';
+        setStatus('초기 점검이 완료되었습니다.', 'ok');
+      } catch (error) {
+        console.error(error);
+        setStatus('초기 점검 중 오류가 발견되었습니다.', 'err');
+      }
+    }
+  </script>
+</body>
+</html>
